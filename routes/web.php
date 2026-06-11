@@ -12,3 +12,5 @@ Route::get('/', function () {
 Route::resource('Entite', EntiteController::class);
 Route::resource('Poste', PosteController::class);
 Route::resource('Equipement', EquipementController::class);
+
+Route::get('/Equipement/export-pdf', [EquipementController::class, 'exporterPDF'])->name('Equipement.pdf');

@@ -54,7 +54,7 @@
                         </td>
                         <td class="py-3 fw-bold text-white">
                             {{ $equipement->designationEquipement }}
-                            <span class="d-block text-white-50 fw-normal small">S/N: {{ $equipement->NserieEquipement }}</span>
+                            <span class="d-block text-white-50 fw-normal small"> {{ $equipement->NserieEquipement }}</span>
                         </td>
                         <td class="py-3 text-white-50 fw-mono small">
                             {{ $equipement->nImmoEquipement }}
@@ -87,15 +87,14 @@
                                     <i class="bi bi-pencil-square"></i> 
                                 </button>
                                 
-                                <button type="button" 
-                                        class="btn btn-sm btn-outline-danger rounded-0 px-2 py-1 small fw-semibold" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#deleteEquipementModal"
-                                        data-id="{{ $equipement->id }}"
-                                        data-designation="{{ $equipement->designationEquipement }}"
-                                        title="Supprimer">
-                                    <i class="bi bi-trash3"></i> 
-                                </button>
+                                <form action="{{ route('Equipement.destroy', $equipement->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');">
+                                                     @csrf
+                                                     @method('DELETE')
+                                                     <button type="submit" class="btn btn-sm btn-outline-danger rounded-0 px-2 py-1 small fw-semibold" title="Supprimer">
+                                                        <i class="bi bi-trash3 me-1"></i> 
+                                                     </button>
+                                                
+                                                </form>
                             </div>
                         </td>
                     </tr>

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('equipements', function (Blueprint $table) {
             $table->id();
             $table->String('designationEquipement');
-            $table->String('etatEquipement');
             $table->String('NserieEquipement');
             $table->String('nImmoEquipement');
             $table->String('autreSpecTech');
