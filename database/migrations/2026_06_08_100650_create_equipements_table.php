@@ -17,7 +17,7 @@ return new class extends Migration
             $table->String('NserieEquipement');
             $table->String('nImmoEquipement');
             $table->String('autreSpecTech');
-            $table->enum('Observation', ['Bon état', 'Hors service']);
+            $table->enum('Observation', ['Bon état', 'Hors service', 'en maintenance', 'déclassé']);
             $table->date('dateAcc');
             $table->foreignId('poste_id')->constrained()->onDelete('cascade');
             $table->timestamps();

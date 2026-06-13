@@ -72,7 +72,9 @@ class PosteController extends Controller
     public function update(Request $request, string $id)
     {
         $poste = Poste::find($id);
-        $poste->designationPoste = $request['designationPoste'];
+        $entite = Entite::find($request['entite_id']);
+
+        $poste->designationPoste = $entite->designationEntite.'-'.$request['designationPoste'];
         $poste->nomResponsble = $request['nomResponsble'];
         $poste->entite_id = $request['entite_id'];
         $poste->save();

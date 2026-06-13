@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Entite;
 use App\Models\Equipement;
 use App\Models\Poste;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,17 +16,18 @@ class EquipementController extends Controller
      */
     public function index(Request $request)
     {
-        // 1. Récupération des paramètres de filtrage
+
+        // ==========================================
+        // 1. Vos filtres et requêtes de base existants
+        // ==========================================
         $search = $request->input('search');
         $entiteId = $request->input('entite_id');
         $observation = $request->input('observation');
 
-        // 2. Initialisation de la requête globale avec des LEFT JOIN pour ne perdre aucune donnée
         $baseQuery = DB::table('equipements')
             ->leftJoin('postes', 'equipements.poste_id', '=', 'postes.id')
             ->leftJoin('entites', 'postes.entite_id', '=', 'entites.id');
 
-        // Application stricte et globale des filtres
         if (! empty($search)) {
             $baseQuery->where(function ($q) use ($search) {
                 $q->where('equipements.designationEquipement', 'like', "%{$search}%")
@@ -38,12 +40,10 @@ class EquipementController extends Controller
             $baseQuery->where('postes.entite_id', $entiteId);
         }
 
-        // Correction ici : On filtre avec la vraie valeur textuelle attendue en Base de Données
         if (! empty($observation)) {
             $baseQuery->where('equipements.Observation', $observation);
         }
 
-        // 3. Récupération des équipements filtrés pour le tableau principal
         $equipements = $baseQuery->clone()
             ->select(
                 'equipements.*',
@@ -54,24 +54,19 @@ class EquipementController extends Controller
             ->orderBy('equipements.created_at', 'desc')
             ->get();
 
-        // 4. CALCULS DES KPI DYNAMIQUES (Accents corrigés en UTF-8)
+        // Vos KPIs globaux existants
         $totalEquipements = $equipements->count();
-
         $totalPostes = $baseQuery->clone()->distinct()->count('equipements.poste_id');
         $totalEntites = $baseQuery->clone()->whereNotNull('postes.entite_id')->distinct()->count('postes.entite_id');
 
-        // RE-CORRECTION DES ACCENTS ICI :
         $bonEtat = $equipements->where('Observation', 'Bon état')->count();
         $horsService = $equipements->where('Observation', 'Hors service')->count();
         $tauxDispo = $totalEquipements > 0 ? round(($bonEtat / $totalEquipements) * 100, 1) : 0;
-
-        // 5. DONNÉES DU GRAPHIQUE ANNEAU
         $donutData = [$bonEtat, $horsService];
 
-        // 6. DONNÉES DU GRAPHIQUE HISTOGRAMME
         $equipementsParEntite = $baseQuery->clone()
             ->select(
-                DB::raw('COALESCE(entites.designationEntite, "Sans Entité") as label'),
+                DB::raw('COALESCE(entites.designationEntite, "Sans EntitÃ©") as label'),
                 DB::raw('count(equipements.id) as total')
             )
             ->groupBy('postes.entite_id', 'entites.designationEntite')
@@ -79,13 +74,57 @@ class EquipementController extends Controller
 
         $barLabels = $equipementsParEntite->pluck('label')->toArray();
         $barValues = $equipementsParEntite->pluck('total')->toArray();
-
-        // Liste complète des entités
         $entites = Entite::all();
+
+        // ==========================================
+        // NOUVEAU : 2. ANALYSE DES ÉQUIPEMENTS AMORTIS (Seuil : 5 ans)
+        // ==========================================
+        // On filtre la collection actuelle : si l'année en cours (2026) - année(dateAcc) >= 5
+        $equipementsAmortis = $equipements->filter(function ($item) {
+            if (empty($item->dateAcc)) {
+                return false;
+            }
+            try {
+                $anneeAcquisition = Carbon::parse($item->dateAcc)->year;
+
+                return (2026 - $anneeAcquisition) >= 5;
+            } catch (\Exception $e) {
+                return false;
+            }
+        });
+        $totalAmortis = $equipementsAmortis->count();
+
+        // ==========================================
+        // NOUVEAU : 3. ANALYSE DU BUREAU LE PLUS OUTILLÉ
+        // ==========================================
+        // Classement de tous les postes par volume d'équipements (basé sur la requête filtrée)
+        $classementBureaux = $baseQuery->clone()
+            ->select(
+                'postes.designationPoste as bureau',
+                'postes.nomResponsble as responsable',
+                'entites.designationEntite as entite',
+                DB::raw('COUNT(equipements.id) as total_outils')
+            )
+            ->whereNotNull('equipements.poste_id')
+            ->groupBy('equipements.poste_id', 'postes.designationPoste', 'postes.nomResponsble', 'entites.designationEntite')
+            ->orderBy('total_outils', 'desc')
+            ->get();
+
+        // Extraction des données du premier (le plus outillé)
+        $bureauPlusOutille = $classementBureaux->first();
+        $nomBureauPlusOutille = $bureauPlusOutille ? $bureauPlusOutille->bureau : 'Aucun';
+        $maxOutils = $bureauPlusOutille ? $bureauPlusOutille->total_outils : 0;
+
+        // Préparation des données pour le graphique Combo des Bureaux
+        $bureauLabels = $classementBureaux->pluck('bureau')->toArray();
+        $bureauValues = $classementBureaux->pluck('total_outils')->toArray();
 
         return view('Equipement.index', compact(
             'equipements', 'totalEquipements', 'totalPostes', 'totalEntites', 'tauxDispo',
-            'donutData', 'barLabels', 'barValues', 'entites'
+            'donutData', 'barLabels', 'barValues', 'entites',
+            // Nouvelles variables injectées
+            'equipementsAmortis', 'totalAmortis', 'nomBureauPlusOutille', 'maxOutils',
+            'classementBureaux', 'bureauLabels', 'bureauValues'
         ));
     }
 
