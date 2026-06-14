@@ -65,4 +65,3 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 4. import 'upload des fichiers excels'
 5. integrer la table parentes des entites
 6. ajouter 2 etats des equipements "en maintenance" et "déclasssé" 
-7. Dans l'importation ajouter le numéro série, date d'acquisition et reponsable 
