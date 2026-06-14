@@ -45,7 +45,7 @@
         </div>
         
         <div class="d-grid px-2">
-            <a href="{{ route('Entite.create') }}" class="btn btn-primary btn-lg rounded-0 py-3 fw-semibold shadow-sm text-uppercase tracking-wider small d-flex align-items-center justify-content-center gap-2">
+            <a href="/login" class="btn btn-primary btn-lg rounded-0 py-3 fw-semibold shadow-sm text-uppercase tracking-wider small d-flex align-items-center justify-content-center gap-2">
                 Entrer dans l'application 
                 <i class="bi bi-arrow-right-circle fs-5"></i>
             </a>

@@ -63,5 +63,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 2. gestion des utilisateurs et rôles
 3. integrer les logs
 4. import 'upload des fichiers excels'
-5. integrer la table parentes des entites
-6. ajouter 2 etats des equipements "en maintenance" et "déclasssé" 
+reecreire les routes

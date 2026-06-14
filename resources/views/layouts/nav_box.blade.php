@@ -70,7 +70,7 @@
                 <i class="bi bi-box-arrow-in-right me-2"></i> Connexion
             </a>
             
-            <form action="" method="post" class="m-0">
+            <form action="{{ route('logout') }}" method="post" class="m-0">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-semibold d-flex align-items-center justify-content-center border-0 rounded-2 small text-secondary link-danger">
                     <i class="bi bi-power me-2"></i> Déconnexion
