@@ -10,6 +10,23 @@
     @livewireStyles
 </head>
 <body class="">
+    <!-- Mobile header with offcanvas toggler -->
+    <header class="d-md-none bg-dark text-light py-2 px-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-sm btn-outline-light p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="small fw-bold">RegiApp</span>
+            </div>
+            <div>
+                @auth
+                    <span class="small">{{ auth()->user()->name }}</span>
+                @endauth
+            </div>
+        </div>
+    </header>
+
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="crossorigin"></script>
     @livewireScripts

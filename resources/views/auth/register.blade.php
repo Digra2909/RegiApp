@@ -17,7 +17,7 @@
             </div>
 
             <div class="card custom-card p-4">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ $formAction ?? route('register') }}">
                     @csrf
                     
                     <div class="row g-4">

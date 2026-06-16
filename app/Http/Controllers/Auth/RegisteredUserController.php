@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-
 use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
@@ -23,14 +22,17 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         // If an authenticated non-admin visits register, redirect them away
-        if (Auth::check() && !(method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
+        if (Auth::check() && ! (method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
+            dd('je suis ici ! ');
             if (\Route::has('dashboard')) {
-                return redirect()->route('dashboard');
+                return redirect()->route('register');
             }
-            return redirect('/');
+
+            return redirect()->route('register');
         }
 
         $roles = Role::all();
+
         return view('auth.register', compact('roles'));
     }
 
@@ -42,10 +44,11 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Prevent authenticated non-admins from creating users via this route
-        if (Auth::check() && !(method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
+        if (Auth::check() && ! (method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
             if (\Route::has('dashboard')) {
                 return redirect()->route('dashboard');
             }
+
             return redirect('/');
         }
 

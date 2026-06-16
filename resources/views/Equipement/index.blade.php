@@ -14,6 +14,7 @@
         font-family: 'Inter', sans-serif;
         background-color: #f8fafc;
         color: #1e293b;
+        font-size: 16px; /* augmenter la taille de la police */
     }
     .custom-card {
         background: #ffffff;

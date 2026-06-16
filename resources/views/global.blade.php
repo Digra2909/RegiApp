@@ -1,0 +1,141 @@
+@extends('layouts.main')
+@section('titre', 'RegiApp || Vue Globale')
+@section('content')
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    .global-dashboard { padding: 24px; font-family: 'Inter', sans-serif; }
+    .kpi-card { border-radius: 12px; box-shadow: 0 6px 18px rgba(2,6,23,0.06); background: #fff; border: 1px solid #e2e8f0; }
+    
+    /* Correction : hauteur fixe pour limiter l'expansion infinie */
+    .chart-block { 
+        background: #fff; 
+        border-radius: 12px; 
+        padding: 18px; 
+        box-shadow: 0 6px 18px rgba(2,6,23,0.06); 
+        border: 1px solid #e2e8f0;
+        height: 320px; 
+        position: relative;
+    }
+    
+    .kpi-value { font-size: 1.35rem; font-weight: 700; color: #0f172a; }
+    .menu-sidebar { min-height: 100vh; background-color: #0f172a; }
+</style>
+
+<div class="container-fluid g-0">
+    <div class="row g-0">
+        <div class="col-md-3 col-lg-2 menu-sidebar">
+            @include('layouts.nav_box')
+        </div>
+
+        <div class="col-md-9 col-lg-10 global-dashboard zone-impression">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Tableau de bord global</h3>
+                <div><small class="text-muted">Accès: Admin, Opérateur</small></div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="p-3 kpi-card">
+                        <div class="text-muted small text-uppercase fw-bold">Total</div>
+                        <div class="kpi-value">{{ $total ?? 0 }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 kpi-card">
+                        <div class="text-muted small text-uppercase fw-bold">Opérationnels</div>
+                        <div class="kpi-value text-success">{{ $byStatus['Bon état'] ?? 0 }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 kpi-card">
+                        <div class="text-muted small text-uppercase fw-bold">En panne</div>
+                        <div class="kpi-value text-danger">{{ $byStatus['Hors service'] ?? 0 }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="p-3 kpi-card">
+                        <div class="text-muted small text-uppercase fw-bold">Taux op.</div>
+                        <div class="kpi-value">{{ $percentOperational ?? 0 }}%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-lg-4">
+                    <div class="chart-block">
+                        <h6 class="mb-3">Par année</h6>
+                        <canvas id="histogramChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="chart-block">
+                        <h6 class="mb-3">Par statut</h6>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="chart-block">
+                        <h6 class="mb-3">Répartition état</h6>
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-12 col-lg-6">
+                    <div class="chart-block">
+                        <h6 class="mb-3">Ajouts mensuels</h6>
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="chart-block">
+                        <h6 class="mb-3">Top entités</h6>
+                        <canvas id="topEntiteChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const commonOptions = { responsive: true, maintainAspectRatio: false };
+    
+    // Initialisation simplifiée
+    new Chart(document.getElementById('histogramChart'), {
+        type: 'bar',
+        data: { labels: @json($years ?? []), datasets: [{ label: 'Équipements', data: @json($countsPerYear ?? []), backgroundColor: '#3b82f6' }] },
+        options: commonOptions
+    });
+
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: { labels: @json(array_keys($byStatus ?? [])), datasets: [{ label: 'Statut', data: @json(array_values($byStatus ?? [])), backgroundColor: ['#10b981','#f59e0b','#ef4444'] }] },
+        options: commonOptions
+    });
+
+    new Chart(document.getElementById('doughnutChart'), {
+        type: 'doughnut',
+        data: { labels: @json(array_keys($byStatus ?? [])), datasets: [{ data: @json(array_values($byStatus ?? [])), backgroundColor: ['#10b981','#f59e0b','#ef4444'] }] },
+        options: commonOptions
+    });
+
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'line',
+        data: { labels: @json($months ?? []), datasets: [{ label: 'Ajouts', data: @json($countsPerMonth ?? []), borderColor: '#6366f1', fill: true }] },
+        options: commonOptions
+    });
+
+    new Chart(document.getElementById('topEntiteChart'), {
+        type: 'bar',
+        data: { labels: @json($topEntiteLabels ?? []), datasets: [{ label: 'Nb', data: @json($topEntiteCounts ?? []), backgroundColor: '#06b6d4' }] },
+        options: { ...commonOptions, indexAxis: 'y' }
+    });
+});
+</script>
+
+@endsection

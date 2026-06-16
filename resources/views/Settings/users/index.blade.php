@@ -32,7 +32,7 @@
                                 <h5 class="fw-bold text-dark mb-0">Liste des utilisateurs</h5>
                                 <p class="text-muted small mb-0">Gérez les comptes et les accès système.</p>
                             </div>
-                            <a href="{{ route('register') }}" class="btn btn-primary btn-submit-custom px-3 py-2 d-flex align-items-center gap-2">
+                            <a href="{{ route('settings.users.create') }}" class="btn btn-primary btn-submit-custom px-3 py-2 d-flex align-items-center gap-2">
                                 <i class="bi bi-plus-lg"></i>
                                 <span>Nouvel utilisateur</span>
                             </a>
