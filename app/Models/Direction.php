@@ -13,10 +13,16 @@ class Direction extends Model
         'designationDirection',
         'codeDirection',
         'nomDirecteur',
+        'user_id',
     ];
 
     public function entites()
     {
         return $this->hasMany(Entite::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

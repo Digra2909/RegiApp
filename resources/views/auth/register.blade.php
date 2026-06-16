@@ -1,61 +1,71 @@
-<x-guest-layout>
-    <div class="container-fluid p-0 h-100">
-        <div class="row g-0 h-100">
-            <div class="col-md-6 d-none d-md-flex split-image">
-                <h1 class="main-title">Gestion Parc & Équipements</h1>
-                <p class="sub-text">Solution de monitoring et maintenance technique intégrée pour les infrastructures de la REGIDESO.</p>
+@extends('layouts.main')
+@section('titre', 'Nouvel utilisateur')
+
+@section('content')
+<div class="container-fluid dashboard-wrapper min-vh-100 p-0">
+    <div class="row g-0">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-3 col-lg-2 p-0 menu-sidebar border-end" style="background: #0f172a;">
+            @include('layouts.nav_box')
+        </div>
+
+        <!-- Contenu Principal -->
+        <div class="col-md-9 col-lg-10 px-4 py-4">
+            <div class="mb-4">
+                <h3 class="fw-bold text-dark mb-1">Créer un nouvel utilisateur</h3>
+                <p class="text-muted small">Remplissez les informations et définissez les accès.</p>
             </div>
 
-            <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
-                <div class="login-card w-100" style="max-width: 450px;">
+            <div class="card custom-card p-4">
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
                     
-                    <div class="text-center mb-4">
-                        <x-application-logo class="w-25 h-25" />
+                    <div class="row g-4">
+                        <!-- Informations de base -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label form-label-custom">Nom complet</label>
+                                <input type="text" name="name" class="form-control form-control-custom" value="{{ old('name') }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label form-label-custom">Email</label>
+                                <input type="email" name="email" class="form-control form-control-custom" value="{{ old('email') }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label form-label-custom">Mot de passe</label>
+                                <input type="password" name="password" class="form-control form-control-custom" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label form-label-custom">Confirmation</label>
+                                <input type="password" name="password_confirmation" class="form-control form-control-custom" required>
+                            </div>
+                        </div>
+
+                        <!-- Rôles et Permissions -->
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label class="form-label form-label-custom mb-3">Attribuer des Rôles</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    @foreach($roles as $role)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->name }}" id="role_{{ $role->id }}">
+                                            <label class="form-check-label" for="role_{{ $role->id }}">{{ ucfirst($role->name) }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Permissions removed: roles include required permissions -->
+                        </div>
                     </div>
 
-                    <h3 class="mb-4 fw-bold text-center">Créer un compte</h3>
-
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Nom complet</label>
-                            <x-text-input id="name" class="form-control form-control-lg" type="text" name="name" :value="old('name')" required autofocus />
-                            <x-input-error :messages="$errors->get('name')" class="text-danger small mt-1" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Email</label>
-                            <x-text-input id="email" class="form-control form-control-lg" type="email" name="email" :value="old('email')" required />
-                            <x-input-error :messages="$errors->get('email')" class="text-danger small mt-1" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Mot de passe</label>
-                            <x-text-input id="password" class="form-control form-control-lg" type="password" name="password" required />
-                            <x-input-error :messages="$errors->get('password')" class="text-danger small mt-1" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Confirmer le mot de passe</label>
-                            <x-text-input id="password_confirmation" class="form-control form-control-lg" type="password" name="password_confirmation" required />
-                            <x-input-error :messages="$errors->get('password_confirmation')" class="text-danger small mt-1" />
-                        </div>
-
-                        <div class="d-grid mt-4">
-                            <x-primary-button class="btn btn-primary btn-lg shadow-sm">
-                                {{ __('S\'inscrire') }}
-                            </x-primary-button>
-                        </div>
-
-                        <div class="text-center mt-3">
-                            <a class="text-decoration-none small text-muted" href="{{ route('login') }}">
-                                {{ __('Déjà inscrit ? Connectez-vous') }}
-                            </a>
-                        </div>
-                    </form>
-                </div>
+                    <div class="mt-4 pt-3 border-top">
+                        <button type="submit" class="btn btn-primary btn-submit-custom px-4">Créer l'utilisateur</button>
+                        <a href="{{ route('settings.users.index') }}" class="btn btn-outline-secondary btn-submit-custom px-4 ms-2">Retour</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</x-guest-layout>
+</div>
+@endsection

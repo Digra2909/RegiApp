@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entite;
+use App\Models\Direction;
 use Illuminate\Http\Request;
 
 class EntiteController extends Controller
@@ -18,8 +19,9 @@ class EntiteController extends Controller
     public function create()
     {
         $entites = Entite::all();
+        $directions = Direction::all();
 
-        return view('Entite.create', compact('entites'));
+        return view('Entite.create', compact('entites', 'directions'));
     }
 
     /**
@@ -28,10 +30,13 @@ class EntiteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'designation' => 'required|string|max:255',
+            'designationEntite' => 'required|string|max:255',
+            'direction_id' => 'required|exists:directions,id',
         ]);
+
         $entite = Entite::create([
-            'designationEntite' => $validated['designation'],
+            'designationEntite' => $validated['designationEntite'],
+            'direction_id' => $validated['direction_id'],
         ]);
 
         return redirect()->route('Entite.create')
@@ -54,8 +59,9 @@ class EntiteController extends Controller
     public function edit(string $id)
     {
         $entite = Entite::findOrFail($id);
+        $directions = Direction::all();
 
-        return view('Entite.edit', compact('entite'));
+        return view('Entite.edit', compact('entite', 'directions'));
     }
 
     /**
@@ -63,12 +69,13 @@ class EntiteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'designationEntite' => 'required|string|max:255',
+            'direction_id' => 'required|exists:directions,id',
         ]);
 
         $entite = Entite::findOrFail($id);
-        $entite->update($request->all());
+        $entite->update($validated);
 
         return redirect()->route('Entite.create')
             ->with('success', 'Entité mise à jour avec succès.');

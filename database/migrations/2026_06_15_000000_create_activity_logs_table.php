@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entites', function (Blueprint $table) {
+        Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('action');
+            $table->json('meta')->nullable();
+            $table->string('ip')->nullable();
             $table->timestamps();
-            $table->String('designationEntite');
-            $table->foreignId('direction_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entite');
+        Schema::dropIfExists('activity_logs');
     }
 };

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('designationDirection');
             $table->string('codeDirection');
             $table->string('nomDirecteur');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

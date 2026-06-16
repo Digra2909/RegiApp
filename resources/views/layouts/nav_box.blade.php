@@ -25,7 +25,7 @@
             </a>
             
              <!-- Gérer les directions -->
-            <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('Entite.create') }}">
+            <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('Direction.create') }}">
                 <i class="bi bi-plus-circle me-3"></i> 
                 <span class="small fw-medium">Gérer les directions</span>
             </a>
@@ -55,7 +55,7 @@
             </a>
 
             <!-- Paramètres -->
-            <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="#">
+            <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('settings.users.index') }}">
                 <i class="bi bi-gear me-3"></i> 
                 <span class="small fw-medium">Paramètres</span>
             </a>

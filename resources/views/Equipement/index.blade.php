@@ -265,6 +265,9 @@
                             <option value="">Tous les états de service</option>
                             <option value="Bon état" {{ request('observation') == 'Bon état' ? 'selected' : '' }}>Bon état</option>
                             <option value="Hors service" {{ request('observation') == 'Hors service' ? 'selected' : '' }}>Hors service</option>
+                            <option value="En maintenance" {{ request('observation') == 'En maintenance' ? 'selected' : '' }}>En maintenance</option>   
+                            <option value="Déclassé" {{ request('observation') == 'Déclassé' ? 'selected' : '' }}>Déclassé  </option>
+
                         </select>
                     </div>
                     <div class="col-md-2 d-flex gap-1.5">
@@ -413,8 +416,12 @@
                                     <td class="py-3 pe-4 text-center printable-td">
                                         @if($item->Observation == 'Bon état')
                                             <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 rounded-pill px-3 py-1 w-100 print-badge-green" style="font-weight: 500; font-size: 11px;">Bon état</span>
-                                        @else
+                                        @elseif($item->Observation == 'Hors service')
                                             <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-20 rounded-pill px-3 py-1 w-100 print-badge-red" style="font-weight: 500; font-size: 11px;">Hors service</span>
+                                        @elseif($item->Observation == 'En maintenance')
+                                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-20 rounded-pill px-3 py-1 w-100 print-badge-yellow" style="font-weight: 500; font-size: 11px;">En maintenance</span>
+                                        @elseif($item->Observation == 'Déclassé')
+                                            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-20 rounded-pill px-3 py-1 w-100 print-badge-gray" style="font-weight: 500; font-size: 11px;">Déclassé</span>
                                         @endif
                                     </td>
                                 </tr>

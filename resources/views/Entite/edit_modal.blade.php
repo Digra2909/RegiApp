@@ -28,6 +28,17 @@
                                required
                                style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 0.65rem 0.85rem; font-size: 0.875rem; color: #0f172a;">
                     </div>
+                        <div class="mt-3">
+                            <label for="edit_direction_id" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">
+                                Direction parente
+                            </label>
+                            <select name="direction_id" id="edit_direction_id" class="form-select" required style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 0.5rem 0.75rem;">
+                                <option value="">Sélectionner la direction</option>
+                                @foreach($directions ?? [] as $direction)
+                                    <option value="{{ $direction->id }}">{{ $direction->designationDirection }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                 </div>
 
                 <!-- Footer -->

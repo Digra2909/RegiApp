@@ -15,15 +15,15 @@
 
                     <h3 class="mb-4 fw-bold text-center">Connexion</h3>
 
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" autocomplete='off'>
                         @csrf
                         <div class="mb-3">
                             <label class="form-label text-muted">Email</label>
-                            <x-text-input class="form-control form-control-lg" type="email" name="email" :value="old('email')" required />
+                            <x-text-input class="form-control form-control-lg" type="email" name="email" autocomplete='off' required />
                         </div>
                         <div class="mb-3">
                             <label class="form-label text-muted">Mot de passe</label>
-                            <x-text-input class="form-control form-control-lg" type="password" name="password" required />
+                            <x-text-input class="form-control form-control-lg" type="password" name="password" autocomplete='off' required />
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg w-100 mt-3 shadow-sm">
                             Se connecter

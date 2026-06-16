@@ -76,26 +76,45 @@
                     <p class="text-muted small mb-0">Visualisez et configurez les structures organisationnelles de la REGIDESO S.A.</p>
                 </div>
 
-                <div class="w-100" style="max-width: 420px;">
+                <div class="w-100" style="max-width: 720px;">
                     <form action="{{ route('Entite.store') }}" method="POST" class="m-0">
                         @csrf
-                        <div class="input-group shadow-sm">
-                            <span class="input-group-text input-group-text-custom text-muted px-3">
-                                <i class="bi bi-folder-plus text-primary fs-5"></i>
-                            </span>
-                            <input type="text" 
-                                   name="designation" 
-                                   id="designation" 
-                                   class="form-control form-control-custom @error('designation') is-invalid @enderror" 
-                                   placeholder="Nouvelle entité (ex: Direction...)" 
-                                   required>
-                            <button class="btn btn-info text-white btn-submit-custom px-4 border-0" type="submit">
-                                AJOUTER
-                            </button>
+                        <div class="row g-2 align-items-center">
+                            <div class="col-md-6">
+                                <div class="input-group shadow-sm">
+                                    <span class="input-group-text input-group-text-custom text-muted px-3">
+                                        <i class="bi bi-folder-plus text-primary fs-5"></i>
+                                    </span>
+                                    <input type="text" 
+                                           name="designationEntite" 
+                                           id="designation" 
+                                           class="form-control form-control-custom @error('designationEntite') is-invalid @enderror" 
+                                           placeholder="Nouvelle entité (ex: Service Technique...)" 
+                                           required>
+                                </div>
+                                @error('designationEntite')
+                                    <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <select name="direction_id" id="direction_id" class="form-select form-control-custom @error('direction_id') is-invalid @enderror" required>
+                                    <option value="">Sélectionner la direction</option>
+                                    @foreach($directions ?? [] as $direction)
+                                        <option value="{{ $direction->id }}">{{ $direction->designationDirection }}</option>
+                                    @endforeach
+                                </select>
+                                @error('direction_id')
+                                    <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-2 d-grid">
+                                <button class="btn btn-info text-white btn-submit-custom px-4 border-0" type="submit">
+                                    AJOUTER
+                                </button>
+                            </div>
                         </div>
-                        @error('designation')
-                            <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
-                        @enderror
                     </form>
                 </div>
             </div>
@@ -127,7 +146,8 @@
                             @forelse($entites as $entite)
                                 <tr class="border-bottom" style="border-color: #f1f5f9;">
                                     <td class="text-dark fw-semibold py-3 ps-4 border-0">
-                                        {{ $entite->designationEntite ?? $entite->designation ?? $entite->nom }}
+                                        <div>{{ $entite->designationEntite }}</div>
+                                        <div class="small text-muted">@if($entite->direction) Direction: {{ $entite->direction->designationDirection }} @endif</div>
                                     </td>
                                     <td class="text-end pe-4 py-3 border-0">
                                         <div class="d-flex justify-content-end gap-2">
@@ -136,7 +156,8 @@
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#editEntiteModal"
                                                     data-id="{{ $entite->id }}"
-                                                    data-designation="{{ $entite->designationEntite ?? $entite->designation ?? $entite->nom }}"
+                                                    data-designation="{{ $entite->designationEntite }}"
+                                                    data-direction="{{ $entite->direction_id ?? '' }}"
                                                     title="Modifier">
                                                 <i class="bi bi-pencil-square"></i> 
                                             </button>
@@ -179,11 +200,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const button = event.relatedTarget; 
             const id = button.getAttribute('data-id');
             const designation = button.getAttribute('data-designation');
+            const direction = button.getAttribute('data-direction');
 
             const form = document.getElementById('editEntiteForm');
             form.setAttribute('action', `/Entite/${id}`); 
 
             document.getElementById('edit_designationEntite').value = designation;
+            const sel = document.getElementById('edit_direction_id');
+            if (sel && direction !== null) {
+                sel.value = direction;
+            }
         });
     }
 });
