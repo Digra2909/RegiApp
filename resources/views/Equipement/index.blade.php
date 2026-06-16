@@ -131,7 +131,7 @@
             <!-- TEXTE INTRODUCTIF TECHNIQUE PDF -->
             <div class="texte-intro-pdf mb-3 text-justify p-3 border-start border-primary border-3 bg-light rounded-end">
                 <p class="mb-0 text-secondary" style="font-size: 11px; line-height: 1.5;">
-                    Le présent document constitue le rapport analytique officiel extrait automatiquement via l'application <strong>RegiApp</strong> pour l'exercice 2026. 
+                    Le présent document constitue le rapport analytique officiel extrait automatiquement via l'application <strong>RegiApp</strong> . 
                     @if(request('search') || request('entite_id') || request('observation'))
                         Ce relevé spécifique a été généré sur base de critères de filtrage sélectifs : 
                         @if(request('search')) "Recherche par mot-clé : {{ request('search') }}" ; @endif
@@ -140,7 +140,7 @@
                     @else
                         Ce relevé consolidé compile l'intégralité des données d'analyse croisée collectées en temps réel au sein de toutes les entités émettrices.
                     @endif
-                    L'objectif principal de cet inventaire émis par la Direction Générale est de fournir une visibilité rigoureuse sur la répartition des machines, d'évaluer le taux d'efficacité globale actuel (établi à <strong>{{ $tauxDispo }}%</strong>), et d'orienter stratégiquement les interventions de maintenance.
+                    L'objectif principal de cet inventaire  est de fournir une visibilité rigoureuse sur la répartition des machines, d'évaluer le taux d'efficacité globale actuel (établi à <strong>{{ $tauxDispo }}%</strong>), et d'orienter stratégiquement les interventions de maintenance.
                 </p>
             </div>
 
@@ -250,9 +250,9 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label small fw-semibold text-secondary mb-1">Filtrer par Entité</label>
+                        <label class="form-label small fw-semibold text-secondary mb-1">Filtrer par Bureau</label>
                         <select name="entite_id" class="form-select form-select-sm">
-                            <option value="">Toutes les entités émettrices</option>
+                            <option value="">Toutes les Bureaux</option>
                             @foreach($entites as $entite)
                                 <option value="{{ $entite->id }}" {{ request('entite_id') == $entite->id ? 'selected' : '' }}>
                                     {{ $entite->designationEntite ?? $entite->designation ?? $entite->nom }}
@@ -263,7 +263,7 @@
                     <div class="col-md-3">
                         <label class="form-label small fw-semibold text-secondary mb-1">Filtrer par État</label>
                         <select name="observation" class="form-select form-select-sm">
-                            <option value="">Tous les états de service</option>
+                            <option value="">Tous les états</option>
                             <option value="Bon état" {{ request('observation') == 'Bon état' ? 'selected' : '' }}>Bon état</option>
                             <option value="Hors service" {{ request('observation') == 'Hors service' ? 'selected' : '' }}>Hors service</option>
                             <option value="En maintenance" {{ request('observation') == 'En maintenance' ? 'selected' : '' }}>En maintenance</option>   
@@ -294,7 +294,7 @@
                     <div class="card custom-card p-3 h-100">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <small class="text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 10px;">Équipements segmentés</small>
+                                <small class="text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 10px;">Équipements concernés</small>
                                 <h4 class="fw-bold text-dark m-0 mt-1 font-monospace">{{ sprintf('%02d', $totalEquipements) }}</h4>
                             </div>
                             <div class="kpi-icon bg-slate-100 text-slate-700">
@@ -336,7 +336,7 @@
                     <div class="card custom-card p-3 h-100">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
-                                <small class="text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 10px;">Entités Impliquées</small>
+                                <small class="text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 10px;">Bureaux Impliquées</small>
                                 <h4 class="fw-bold text-dark m-0 mt-1 font-monospace">{{ sprintf('%02d', $totalEntites) }}</h4>
                             </div>
                             <div class="kpi-icon bg-warning bg-opacity-10 text-warning">
@@ -387,7 +387,7 @@
                                 <th scope="col" class="py-3 ps-4 text-center col-print-num" style="width: 50px;">N°</th>
                                 <th scope="col" class="py-3 col-print-desig">Désignation & Code</th>
                                 <th scope="col" class="py-3 col-print-immo">N° Immatriculation</th>
-                                <th scope="col" class="py-3 col-print-entite">Entité Émettrice</th>
+                                <th scope="col" class="py-3 col-print-entite">Bureau</th>
                                 <th scope="col" class="py-3 col-print-poste">Poste & Responsable</th>
                                 <th scope="col" class="py-3 col-print-AutSpec">Spécificités Techniques</th>
                                 <th scope="col" class="py-3 pe-4 text-center col-print-statut" style="width: 140px;">Statut</th>

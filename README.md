@@ -61,4 +61,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 1. ajouter des lignes sous les cards
 2. modifier un des graphiques de global
-3. erreur serveur quand la date d'acquisition n'est pas renseigné
+3. épuré la aartie textuelle du pdf
+4.revoir le chart en anneau de equipement.index

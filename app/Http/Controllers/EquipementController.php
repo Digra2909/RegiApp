@@ -82,8 +82,11 @@ class EquipementController extends Controller
 
         $bonEtat = $equipements->where('Observation', 'Bon état')->count();
         $horsService = $equipements->where('Observation', 'Hors service')->count();
+        $declasse = $equipements->where('Observation', 'Déclassé')->count();
+        $maintenance = $equipements->where('Observation', 'En maintenance')->count();
+
         $tauxDispo = $totalEquipements > 0 ? round(($bonEtat / $totalEquipements) * 100, 1) : 0;
-        $donutData = [$bonEtat, $horsService];
+        $donutData = [$bonEtat, $horsService, $maintenance, $declasse];
 
         $equipementsParEntite = $baseQuery->clone()
             ->select(

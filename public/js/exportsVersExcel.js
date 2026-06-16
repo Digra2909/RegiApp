@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
         doughnutChartInstance = new Chart(ctxDonut, {
             type: 'doughnut',
             data: {
-                labels: ['Bon état', 'Hors service'],
+                labels: ['Bon état', 'Hors service', 'En maintenance', 'Déclassé'],
                 datasets: [{
                     data: donutData,
-                    backgroundColor: ['#198754', '#dc3545'],
+                    backgroundColor: ['#198754', '#dc3545', '#f8cd10', '#000'],
                     borderWidth: 2,
                     borderColor: '#fff'
                 }]
