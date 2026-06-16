@@ -25,14 +25,13 @@
                 <i class="bi bi-speedometer2 me-3"></i>
                 <span class="small fw-medium">Dashboard global</span>
             </a>
-            @endhasanyrole
             <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('Direction.create') }}">
                 <i class="bi bi-plus-circle me-3"></i>
                 <span class="small fw-medium">Gérer les directions</span>
             </a>
             <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('Entite.create') }}">
                 <i class="bi bi-layers me-3"></i>
-                <span class="small fw-medium">Gérer les entités</span>
+                <span class="small fw-medium">Gérer les bureaux</span>
             </a>
             <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('Poste.create') }}">
                 <i class="bi bi-geo-alt me-3"></i>
@@ -42,14 +41,12 @@
                 <i class="bi bi-tools me-3"></i>
                 <span class="small fw-medium">Gérer les équipements</span>
             </a>
-            <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="#">
-                <i class="bi bi-terminal me-3"></i>
-                <span class="small fw-medium">Logs Système</span>
-            </a>
             <a class="list-group-item list-group-item-action bg-transparent text-secondary border-0 d-flex align-items-center rounded-2 py-2.5 px-3 link-light" href="{{ route('settings.users.index') }}">
                 <i class="bi bi-gear me-3"></i>
                 <span class="small fw-medium">Paramètres</span>
             </a>
+            @endhasanyrole
+
         </div>
     </div>
 
@@ -60,7 +57,7 @@
             </a>
             <form action="{{ route('logout') }}" method="post" class="m-0">
                 @csrf
-                <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-semibold d-flex align-items-center justify-content-center border-0 rounded-2 small text-secondary link-danger">
+                <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-semibold d-flex align-items-center justify-content-center border-0 rounded-2 small text-light link-danger">
                     <i class="bi bi-power me-2"></i> Déconnexion
                 </button>
             </form>
@@ -91,10 +88,9 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action" href="{{ route('Equipement.index') }}">Tableau de bord</a>
             <a class="list-group-item list-group-item-action" href="{{ route('Direction.create') }}">Gérer les directions</a>
-            <a class="list-group-item list-group-item-action" href="{{ route('Entite.create') }}">Gérer les entités</a>
+            <a class="list-group-item list-group-item-action" href="{{ route('Entite.create') }}">Gérer les bureaux</a>
             <a class="list-group-item list-group-item-action" href="{{ route('Poste.create') }}">Gérer les postes</a>
             <a class="list-group-item list-group-item-action" href="{{ route('Equipement.create') }}">Gérer les équipements</a>
-            <a class="list-group-item list-group-item-action" href="#">Logs Système</a>
             <a class="list-group-item list-group-item-action" href="{{ route('settings.users.index') }}">Paramètres</a>
         </div>
     </div>

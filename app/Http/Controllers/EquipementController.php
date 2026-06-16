@@ -28,6 +28,27 @@ class EquipementController extends Controller
             ->leftJoin('postes', 'equipements.poste_id', '=', 'postes.id')
             ->leftJoin('entites', 'postes.entite_id', '=', 'entites.id');
 
+        // ==========================================
+        // NOUVEAU : 3. ANALYSE DU BUREAU LE PLUS OUTILLÉ
+        // ==========================================
+        // Classement de tous les postes par volume d'équipements (basé sur la requête filtrée)
+        $classementBureaux = $baseQuery->clone()
+            ->select(
+                'postes.designationPoste as bureau',
+                'postes.nomResponsble as responsable',
+                'entites.designationEntite as entite',
+                DB::raw('COUNT(equipements.id) as total_outils')
+            )
+            ->whereNotNull('equipements.poste_id')
+            ->groupBy('equipements.poste_id', 'postes.designationPoste', 'postes.nomResponsble', 'entites.designationEntite')
+            ->orderBy('total_outils', 'desc')
+            ->get();
+
+        // Extraction des données du premier (le plus outillé)
+        $bureauPlusOutille = $classementBureaux->first();
+        $nomBureauPlusOutille = $bureauPlusOutille ? $bureauPlusOutille->bureau : 'Aucun';
+        $maxOutils = $bureauPlusOutille ? $bureauPlusOutille->total_outils : 0;
+
         if (! empty($search)) {
             $baseQuery->where(function ($q) use ($search) {
                 $q->where('equipements.designationEquipement', 'like', "%{$search}%")
@@ -94,27 +115,6 @@ class EquipementController extends Controller
         });
         $totalAmortis = $equipementsAmortis->count();
 
-        // ==========================================
-        // NOUVEAU : 3. ANALYSE DU BUREAU LE PLUS OUTILLÉ
-        // ==========================================
-        // Classement de tous les postes par volume d'équipements (basé sur la requête filtrée)
-        $classementBureaux = $baseQuery->clone()
-            ->select(
-                'postes.designationPoste as bureau',
-                'postes.nomResponsble as responsable',
-                'entites.designationEntite as entite',
-                DB::raw('COUNT(equipements.id) as total_outils')
-            )
-            ->whereNotNull('equipements.poste_id')
-            ->groupBy('equipements.poste_id', 'postes.designationPoste', 'postes.nomResponsble', 'entites.designationEntite')
-            ->orderBy('total_outils', 'desc')
-            ->get();
-
-        // Extraction des données du premier (le plus outillé)
-        $bureauPlusOutille = $classementBureaux->first();
-        $nomBureauPlusOutille = $bureauPlusOutille ? $bureauPlusOutille->bureau : 'Aucun';
-        $maxOutils = $bureauPlusOutille ? $bureauPlusOutille->total_outils : 0;
-
         // Préparation des données pour le graphique Combo des Bureaux
         $bureauLabels = $classementBureaux->pluck('bureau')->toArray();
         $bureauValues = $classementBureaux->pluck('total_outils')->toArray();
@@ -145,15 +145,17 @@ class EquipementController extends Controller
      */
     public function store(Request $request)
     {
-        $equipement = Equipement::Create([
-            'designationEquipement' => $request['designationEquipement'],
-            'NserieEquipement' => $request['NserieEquipement'],
-            'nImmoEquipement' => $request['nImmoEquipement'],
-            'Observation' => $request['Observation'],
-            'dateAcc' => $request['dateAcc'],
-            'autreSpecTech' => $request['autreSpecTech'],
-            'poste_id' => $request['poste_id'],
+        $validated = $request->validate([
+            'designationEquipement' => 'required|string|max:255',
+            'NserieEquipement' => 'nullable|string|max:255',
+            'nImmoEquipement' => 'nullable|string|max:255',
+            'Observation' => 'nullable|string|in:Bon état,Hors service,En maintenance,Déclassé',
+            'dateAcc' => 'nullable|date',
+            'autreSpecTech' => 'nullable|string|max:1000',
+            'poste_id' => 'required|exists:postes,id',
         ]);
+
+        Equipement::create($validated);
 
         $postes = Poste::with('entite')->get();
         $entites = Entite::all();
@@ -183,15 +185,18 @@ class EquipementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $equipement = Equipement::find($id);
-        $equipement->designationEquipement = $request['designationEquipement'];
-        $equipement->NserieEquipement = $request['NserieEquipement'];
-        $equipement->nImmoEquipement = $request['nImmoEquipement'];
-        $equipement->Observation = $request['Observation'];
-        $equipement->dateAcc = $request['dateAcc'];
-        $equipement->autreSpecTech = $request['autreSpecTech'];
-        $equipement->poste_id = $request['poste_id'];
-        $equipement->save();
+        $validated = $request->validate([
+            'designationEquipement' => 'required|string|max:255',
+            'NserieEquipement' => 'nullable|string|max:255',
+            'nImmoEquipement' => 'nullable|string|max:255',
+            'Observation' => 'nullable|string|in:Bon état,Hors service,En maintenance,Déclassé',
+            'dateAcc' => 'nullable|date',
+            'autreSpecTech' => 'nullable|string|max:1000',
+            'poste_id' => 'required|exists:postes,id',
+        ]);
+
+        $equipement = Equipement::findOrFail($id);
+        $equipement->update($validated);
 
         $postes = Poste::with('entite')->get();
         $entites = Entite::all();
@@ -205,7 +210,7 @@ class EquipementController extends Controller
      */
     public function destroy(string $id)
     {
-        $equipement = Equipement::find($id);
+        $equipement = Equipement::findOrFail($id);
         $equipement->delete();
 
         $postes = Poste::with('entite')->get();

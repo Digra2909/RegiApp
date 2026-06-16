@@ -105,7 +105,7 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="nImmoEquipement" class="form-label form-label-custom mb-1">N° Immatriculation</label>
+                            <label for="nImmoEquipement" class="form-label form-label-custom mb-1">N° Immobilier</label>
                             <input type="text" 
                                    name="nImmoEquipement" 
                                    id="nImmoEquipement" 
@@ -123,12 +123,9 @@
                             <input type="date" 
                                    name="dateAcc" 
                                    id="dateAcc" 
-                                   class="form-control form-control-custom @error('dateAcc') is-invalid @enderror" 
-                                   value="{{ old('dateAcc') }}"
-                                   required>
-                            @error('dateAcc')
-                                <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
-                            @enderror
+                                   class="form-control form-control-custom" 
+                                   value="{{ old('dateAcc') }}">
+                            
                         </div>
 
                         <div class="col-md-3">

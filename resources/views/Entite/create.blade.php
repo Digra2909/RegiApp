@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('titre', 'Gestion des Entités')
+@section('titre', 'Gestion des Bureaux')
 @section('content')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,7 +72,7 @@
             
             <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center pb-3 mb-4 border-bottom" style="border-color: #e2e8f0 !important;">
                 <div class="mb-3 mb-lg-0">
-                    <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.4px;">Gestion des Entités</h3>
+                    <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.4px;">Gestion des Bureaux</h3>
                     <p class="text-muted small mb-0">Visualisez et configurez les structures organisationnelles de la REGIDESO S.A.</p>
                 </div>
 
@@ -89,7 +89,7 @@
                                            name="designationEntite" 
                                            id="designation" 
                                            class="form-control form-control-custom @error('designationEntite') is-invalid @enderror" 
-                                           placeholder="Nouvelle entité (ex: Service Technique...)" 
+                                           placeholder="Nouveau bureau (ex: Service Technique...)" 
                                            required>
                                 </div>
                                 @error('designationEntite')
@@ -138,7 +138,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead>
                             <tr class="table-light text-secondary border-bottom fw-semibold" style="font-size: 11px; background-color: #f8fafc; border-color: #e2e8f0 !important;">
-                                <th scope="col" style="width: 80%;" class="py-3 ps-4 text-secondary text-uppercase border-0">Désignation de l'entité</th>
+                                <th scope="col" style="width: 80%;" class="py-3 ps-4 text-secondary text-uppercase border-0">Désignation du bureau</th>
                                 <th scope="col" style="width: 20%;" class="py-3 text-end pe-4 text-secondary text-uppercase border-0">Actions</th>
                             </tr>
                         </thead>

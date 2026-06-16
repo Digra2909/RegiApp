@@ -18,7 +18,7 @@ return new class extends Migration
             $table->String('nImmoEquipement');
             $table->String('autreSpecTech');
             $table->enum('Observation', ['Bon état', 'Hors service', 'En maintenance', 'Déclassé']);
-            $table->date('dateAcc');
+            $table->date('dateAcc')->nullable();
             $table->foreignId('poste_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

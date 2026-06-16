@@ -59,8 +59,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ----------------------------------------------------------------------------------------------------
 
-1. gerer les validations des données
-2. gestion des utilisateurs et rôles
-3. integrer les logs
-4. import 'upload des fichiers excels'
-reecreire les routes
+1. ajouter des lignes sous les cards
+2. modifier un des graphiques de global
+3. erreur serveur quand la date d'acquisition n'est pas renseigné

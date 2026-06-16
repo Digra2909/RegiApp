@@ -26,9 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('Entite', EntiteController::class);
-    Route::resource('Poste', PosteController::class);
-    Route::resource('Direction', DirectionController::class);
+    Route::resource('Entite', EntiteController::class)->middleware('role:admin');
+    Route::resource('Poste', PosteController::class)->middleware('role:admin');
+    Route::resource('Direction', DirectionController::class)->middleware('role:admin');
     // Equipement: index available to admin and rapporteur, other actions only to admin
     Route::get('Equipement', [EquipementController::class, 'index'])->name('Equipement.index')->middleware('role:admin|rapporteur');
     Route::resource('Equipement', EquipementController::class)->except(['index'])->middleware('role:admin');

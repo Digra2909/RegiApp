@@ -33,15 +33,18 @@ class PosteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'designationPoste' => 'required|string|max:255',
+            'nomResponsble' => 'required|string|max:255',
+            'entite_id' => 'required|exists:entites,id',
+        ]);
 
-        $entite = Entite::find($request['entite_id']);
+        $entite = Entite::findOrFail($validated['entite_id']);
 
-        $request['designationPoste'] = $entite->designationEntite.'-'.$request['designationPoste'];
-        $poste = Poste::Create([
-            'designationPoste' => $request['designationPoste'],
-            'nomResponsble' => $request['nomResponsble'],
-            'entite_id' => $request['entite_id'],
+        $poste = Poste::create([
+            'designationPoste' => $entite->designationEntite.'-'.$validated['designationPoste'],
+            'nomResponsble' => $validated['nomResponsble'],
+            'entite_id' => $validated['entite_id'],
         ]);
         $entites = Entite::all();
 
@@ -71,12 +74,18 @@ class PosteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $poste = Poste::find($id);
-        $entite = Entite::find($request['entite_id']);
+        $validated = $request->validate([
+            'designationPoste' => 'required|string|max:255',
+            'nomResponsble' => 'required|string|max:255',
+            'entite_id' => 'required|exists:entites,id',
+        ]);
 
-        $poste->designationPoste = $entite->designationEntite.'-'.$request['designationPoste'];
-        $poste->nomResponsble = $request['nomResponsble'];
-        $poste->entite_id = $request['entite_id'];
+        $poste = Poste::findOrFail($id);
+        $entite = Entite::findOrFail($validated['entite_id']);
+
+        $poste->designationPoste = $entite->designationEntite.'-'.$validated['designationPoste'];
+        $poste->nomResponsble = $validated['nomResponsble'];
+        $poste->entite_id = $validated['entite_id'];
         $poste->save();
 
         $entites = Entite::all();

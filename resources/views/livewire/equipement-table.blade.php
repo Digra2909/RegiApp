@@ -11,7 +11,7 @@
                 <input type="text" 
                        wire:model.live.debounce.300ms="searchImmatriculation" 
                        class="form-control border-start-0" 
-                       placeholder="N° Immatriculation..."
+                       placeholder="N° Immobilier..."
                        style="border-radius: 0 8px 8px 0 !important; border: 1px solid #cbd5e1; font-size: 0.85rem;">
             </div>
 
@@ -44,7 +44,7 @@
                     <th scope="col" class="py-3 ps-4 text-center text-muted" style="width: 60px;">N°</th>
                     <th scope="col" class="py-3">Équipement & S/N</th>
                     <th scope="col" class="py-3">Poste Affecté</th>
-                    <th scope="col" class="py-3">N° Immatriculation</th>
+                    <th scope="col" class="py-3">N° Immobilier</th>
                     <th scope="col" class="py-3">Spécificités Techniques</th>
                     <th scope="col" class="py-3">État</th>
                     <th scope="col" class="py-3 pe-4 text-end" style="width: 140px;">Actions</th>
