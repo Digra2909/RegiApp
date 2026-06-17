@@ -158,14 +158,40 @@
                         </div>
 
                         <div class="col-md-2">
-                            <label for="autreSpecTech" class="form-label form-label-custom mb-1">Spécifications (Opt.)</label>
-                            <input type="text" 
-                                   name="autreSpecTech" 
-                                   id="autreSpecTech" 
-                                   class="form-control form-control-custom @error('autreSpecTech') is-invalid @enderror" 
-                                   placeholder="Ex: i9, 32GB, SSD 1TB" 
-                                   value="{{ old('autreSpecTech') }}">
-                            @error('autreSpecTech')
+                            <label for="ram" class="form-label form-label-custom mb-1">RAM (Opt.)</label>
+                            <input type="text"
+                                   name="ram"
+                                   id="ram"
+                                   class="form-control form-control-custom @error('ram') is-invalid @enderror"
+                                   placeholder="Ex: 16GB"
+                                   value="{{ old('ram') }}">
+                            @error('ram')
+                                <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="disque_dur" class="form-label form-label-custom mb-1">Disque dur (Opt.)</label>
+                            <input type="text"
+                                   name="disque_dur"
+                                   id="disque_dur"
+                                   class="form-control form-control-custom @error('disque_dur') is-invalid @enderror"
+                                   placeholder="Ex: SSD 1TB"
+                                   value="{{ old('disque_dur') }}">
+                            @error('disque_dur')
+                                <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="cpu" class="form-label form-label-custom mb-1">CPU (Opt.)</label>
+                            <input type="text"
+                                   name="cpu"
+                                   id="cpu"
+                                   class="form-control form-control-custom @error('cpu') is-invalid @enderror"
+                                   placeholder="Ex: i9-11900"
+                                   value="{{ old('cpu') }}">
+                            @error('cpu')
                                 <div class="invalid-feedback d-block small mt-1 fw-medium">{{ $message }}</div>
                             @enderror
                         </div>
@@ -216,7 +242,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('edit_dateAcc').value = date;
             document.getElementById('edit_Observation').value = observation;
             document.getElementById('edit_poste_id').value = poste;
-            document.getElementById('edit_autreSpecTech').value = spectech;
+            // Pré-remplir les champs éclatés (séparateur ' | ')
+            const parts = spectech ? spectech.split('|').map(s => s.trim()) : [];
+            document.getElementById('edit_ram').value = parts[0] ?? '';
+            document.getElementById('edit_disque_dur').value = parts[1] ?? '';
+            document.getElementById('edit_cpu').value = parts[2] ?? '';
         });
     }
 });

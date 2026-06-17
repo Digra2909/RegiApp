@@ -155,8 +155,24 @@ class EquipementController extends Controller
             'Observation' => 'nullable|string|in:Bon état,Hors service,En maintenance,Déclassé',
             'dateAcc' => 'nullable|date',
             'autreSpecTech' => 'nullable|string|max:1000',
+            'ram' => 'nullable|string|max:255',
+            'disque_dur' => 'nullable|string|max:255',
+            'cpu' => 'nullable|string|max:255',
             'poste_id' => 'required|exists:postes,id',
         ]);
+
+        // Construire la chaine jointe pour l'affichage dans les tableaux
+        $specParts = [];
+        foreach (['ram', 'disque_dur', 'cpu'] as $k) {
+            if (!empty($validated[$k] ?? null)) {
+                $specParts[] = $validated[$k];
+            }
+        }
+        if (!empty($validated['autreSpecTech'] ?? null)) {
+            // Préserver l'ancienne saisie si fournie
+            $specParts[] = $validated['autreSpecTech'];
+        }
+        $validated['autreSpecTech'] = $specParts ? implode(' | ', $specParts) : '';
 
         Equipement::create($validated);
 
@@ -195,8 +211,22 @@ class EquipementController extends Controller
             'Observation' => 'nullable|string|in:Bon état,Hors service,En maintenance,Déclassé',
             'dateAcc' => 'nullable|date',
             'autreSpecTech' => 'nullable|string|max:1000',
+            'ram' => 'nullable|string|max:255',
+            'disque_dur' => 'nullable|string|max:255',
+            'cpu' => 'nullable|string|max:255',
             'poste_id' => 'required|exists:postes,id',
         ]);
+
+        $specParts = [];
+        foreach (['ram', 'disque_dur', 'cpu'] as $k) {
+            if (!empty($validated[$k] ?? null)) {
+                $specParts[] = $validated[$k];
+            }
+        }
+        if (!empty($validated['autreSpecTech'] ?? null)) {
+            $specParts[] = $validated['autreSpecTech'];
+        }
+        $validated['autreSpecTech'] = $specParts ? implode(' | ', $specParts) : '';
 
         $equipement = Equipement::findOrFail($id);
         $equipement->update($validated);

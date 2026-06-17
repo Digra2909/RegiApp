@@ -80,11 +80,29 @@
                             </select>
                         </div>
 
-                        <div class="col-12">
-                            <label for="edit_autreSpecTech" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">Autres spécifications techniques (Optionnel)</label>
-                            <input type="text" 
-                                   name="autreSpecTech" 
-                                   id="edit_autreSpecTech" 
+                        <div class="col-md-4">
+                            <label for="edit_ram" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">RAM (Opt.)</label>
+                            <input type="text"
+                                   name="ram"
+                                   id="edit_ram"
+                                   class="form-control"
+                                   style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #0f172a;">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="edit_disque_dur" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">Disque dur (Opt.)</label>
+                            <input type="text"
+                                   name="disque_dur"
+                                   id="edit_disque_dur"
+                                   class="form-control"
+                                   style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #0f172a;">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="edit_cpu" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">CPU (Opt.)</label>
+                            <input type="text"
+                                   name="cpu"
+                                   id="edit_cpu"
                                    class="form-control"
                                    style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #0f172a;">
                         </div>

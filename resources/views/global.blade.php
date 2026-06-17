@@ -20,9 +20,9 @@
     }
     
     .kpi-value { font-size: 1.35rem; font-weight: 700; color: #0f172a; }
-    .kpi-trend span { font-size: 0.85rem; font-weight: 600; margin-left: 6px; }
-    .kpi-trend .up { color: #16a34a; }
-    .kpi-trend .down { color: #dc2626; }
+    .kpi-trend { display:flex; align-items:center; justify-content:flex-start; gap:8px; margin-top:8px; }
+    .kpi-sparkline { width:100%; height:36px; }
+    .kpi-sparkline canvas { width:100% !important; height:36px !important; display:block; }
     .menu-sidebar { min-height: 100vh; background-color: #0f172a; }
 </style>
 
@@ -35,7 +35,6 @@
         <div class="col-md-9 col-lg-10 global-dashboard zone-impression">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3>Tableau de bord global</h3>
-                <div><small class="text-muted">Accès: Admin, Opérateur</small></div>
             </div>
 
             <div class="row g-3 mb-4">
@@ -43,28 +42,36 @@
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Total</div>
                         <div class="kpi-value">{{ $total ?? 0 }}</div>
-                        <div class="kpi-trend"></div>
+                        <div class="kpi-trend">
+                            <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Opérationnels</div>
                         <div class="kpi-value text-success">{{ $byStatus['Bon état'] ?? 0 }}</div>
-                        <div class="kpi-trend"></div>
+                        <div class="kpi-trend">
+                            <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">En panne</div>
                         <div class="kpi-value text-danger">{{ $byStatus['Hors service'] ?? 0 }}</div>
-                        <div class="kpi-trend"></div>
+                        <div class="kpi-trend">
+                            <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Taux op.</div>
                         <div class="kpi-value">{{ $percentOperational ?? 0 }}%</div>
-                        <div class="kpi-trend"></div>
+                        <div class="kpi-trend">
+                            <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -142,6 +149,25 @@ document.addEventListener('DOMContentLoaded', function(){
         type: 'bar',
         data: { labels: @json($topEntiteLabels ?? []), datasets: [{ label: 'Nb', data: @json($topEntiteCounts ?? []), backgroundColor: '#06b6d4' }] },
         options: { ...commonOptions, indexAxis: 'y' }
+    });
+
+    // (Trend indicators removed) 
+
+    // Sparklines: petits graphiques sous chaque KPI (visuel seulement)
+    document.querySelectorAll('.sparkline').forEach(function(canvas){
+        const ctx = canvas.getContext('2d');
+        const points = Array.from({length: 10}, () => Math.round(Math.random() * 100));
+        new Chart(ctx, {
+            type: 'line',
+            data: { labels: points.map((_,i)=>i), datasets: [{ data: points, borderColor: '#2563eb', backgroundColor: 'transparent', borderWidth: 1.5, tension: 0.35 }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                elements: { point: { radius: 0 } },
+                scales: { x: { display: false }, y: { display: false } }
+            }
+        });
     });
 });
 </script>
