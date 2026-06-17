@@ -54,6 +54,11 @@ class GlobalController extends Controller
         // Equipments amortis (>=5 years)
         $amortisCount = Equipement::whereDate('dateAcc', '<=', now()->subYears(5))->count();
 
+        // Preference chart: amortis vs non-amortis
+        $nonAmortisCount = max(0, $total - $amortisCount);
+        $preferenceLabels = ['Amortis', 'Non amortis'];
+        $preferenceData = [$amortisCount, $nonAmortisCount];
+
         // Top 5 entites by equipment count
         $topEntites = DB::table('equipements')
             ->join('postes', 'equipements.poste_id', '=', 'postes.id')
@@ -70,7 +75,8 @@ class GlobalController extends Controller
         return view('global', compact(
             'total', 'byStatus', 'years', 'countsPerYear',
             'months', 'countsPerMonth', 'percentOperational', 'amortisCount',
-            'topEntiteLabels', 'topEntiteCounts', 'topEntites'
+            'topEntiteLabels', 'topEntiteCounts', 'topEntites',
+            'preferenceLabels', 'preferenceData'
         ));
     }
 }
