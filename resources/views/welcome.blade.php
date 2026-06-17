@@ -52,7 +52,7 @@
         </div>
 
         <div class="mt-4 pt-2 border-top border-light-subtle">
-            <small class="text-muted font-monospace" style="font-size: 11px;">REGIDESO &copy; 2026</small>
+            <small class="text-muted font-monospace" style="font-size: 11px;">Regideso &copy; 2026</small>
         </div>
 
     </div>
