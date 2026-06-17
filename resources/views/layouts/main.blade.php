@@ -29,6 +29,22 @@
 
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="crossorigin"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function(){
+        if (typeof bootstrap !== 'undefined') {
+            document.querySelectorAll('[data-bs-toggle="offcanvas"]').forEach(function(btn){
+                btn.addEventListener('click', function(){
+                    var target = btn.getAttribute('data-bs-target') || btn.getAttribute('data-target');
+                    if (!target) return;
+                    var el = document.querySelector(target);
+                    if (!el) return;
+                    var inst = bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el);
+                    inst.toggle();
+                });
+            });
+        }
+    });
+    </script>
     @livewireScripts
 </body>
 </html>

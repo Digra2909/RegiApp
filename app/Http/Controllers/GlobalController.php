@@ -21,10 +21,17 @@ class GlobalController extends Controller
             ->pluck('total', 'Observation')
             ->toArray();
 
-        // Equipments per year
-        $perYearQuery = Equipement::selectRaw('YEAR(dateAcc) as year, count(*) as total')
-            ->groupBy('year')
-            ->orderBy('year')
+        // Equipments per year (driver-aware for sqlite/mysql)
+        $driver = DB::connection()->getDriverName();
+        if ($driver === 'sqlite') {
+            $yearExpr = "strftime('%Y', dateAcc)";
+        } else {
+            $yearExpr = "YEAR(dateAcc)";
+        }
+
+        $perYearQuery = Equipement::selectRaw("{$yearExpr} as year, count(*) as total")
+            ->groupBy(DB::raw($yearExpr))
+            ->orderBy(DB::raw($yearExpr))
             ->get();
 
         $years = $perYearQuery->pluck('year')->map(fn($y) => (string) $y)->values()->all();
@@ -32,10 +39,16 @@ class GlobalController extends Controller
 
         // Monthly additions (last 12 months)
         $start = now()->subMonths(11)->startOfMonth();
-        $monthlyQuery = Equipement::selectRaw("DATE_FORMAT(dateAcc, '%Y-%m') as ym, count(*) as total")
-            ->where('dateAcc', '>=', $start)
-            ->groupBy('ym')
-            ->orderBy('ym')
+        if ($driver === 'sqlite') {
+            $ymExpr = "strftime('%Y-%m', dateAcc)";
+        } else {
+            $ymExpr = "DATE_FORMAT(dateAcc, '%Y-%m')";
+        }
+
+        $monthlyQuery = Equipement::selectRaw("{$ymExpr} as ym, count(*) as total")
+            ->where('dateAcc', '>=', $start->toDateString())
+            ->groupBy(DB::raw($ymExpr))
+            ->orderBy(DB::raw($ymExpr))
             ->get();
 
         $months = [];
@@ -52,7 +65,8 @@ class GlobalController extends Controller
         $percentOperational = $total ? round(100 * $operational / $total, 1) : 0;
 
         // Equipments amortis (>=5 years)
-        $amortisCount = Equipement::whereDate('dateAcc', '<=', now()->subYears(5))->count();
+        $cutoff = now()->subYears(5)->toDateString();
+        $amortisCount = Equipement::where('dateAcc', '<=', $cutoff)->count();
 
         // Preference chart: amortis vs non-amortis
         $nonAmortisCount = max(0, $total - $amortisCount);
