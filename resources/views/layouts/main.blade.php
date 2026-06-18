@@ -224,16 +224,10 @@
         @media (max-width: 767.98px) {
             .main-content { padding: 16px; }
         }
-
-        /* No sidebar mode */
-        .no-sidebar .main-content { margin-left: 0 !important; }
-        .no-sidebar .mobile-header { display: none !important; }
-        .no-sidebar .sidebar-desktop { display: none !important; }
     </style>
 </head>
-<body class="@if(View::hasSection('hideSidebar')) no-sidebar @endif">
+<body>
 
-    @if (!View::hasSection('hideSidebar'))
     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="d-flex align-items-center gap-2">
@@ -251,7 +245,6 @@
 
     <!-- Desktop Sidebar + Offcanvas Mobile -->
     @include('layouts.nav_box')
-    @endif
 
     <!-- Main Content -->
     <main class="main-content">
