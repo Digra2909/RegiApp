@@ -8,15 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<div class="container-fluid bg-light min-vh-100" style="font-family: 'Inter', sans-serif;">
-    <div class="row">
-        <!-- Sidebar Navigation -->
-        <div class="col-md-3 col-lg-2 p-0 border-end bg-dark">
-            @include('layouts.nav_box')
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="col-md-9 col-lg-10 py-4 px-4">
+<div class="container-fluid px-0" style="font-family: 'Inter', sans-serif;">
+    <div class="py-4 px-4">
             
             <!-- En-tête de page -->
             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -166,7 +159,6 @@
                 </div>
             </div>
 
-        </div>
     </div>
 </div>
 

@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-    .global-dashboard { padding: 24px; font-family: 'Inter', sans-serif; }
+    .global-dashboard { font-family: 'Inter', sans-serif; }
     .kpi-card { border-radius: 12px; box-shadow: 0 6px 18px rgba(2,6,23,0.06); background: #fff; border: 1px solid #e2e8f0; }
     
     /* Correction : hauteur fixe pour limiter l'expansion infinie */
@@ -23,16 +23,10 @@
     .kpi-trend { display:flex; align-items:center; justify-content:flex-start; gap:8px; margin-top:8px; }
     .kpi-sparkline { width:100%; height:36px; }
     .kpi-sparkline canvas { width:100% !important; height:36px !important; display:block; }
-    .menu-sidebar { min-height: 100vh; background-color: #0f172a; }
+
 </style>
 
-<div class="container-fluid g-0">
-    <div class="row g-0">
-        <div class="col-md-3 col-lg-2 menu-sidebar">
-            @include('layouts.nav_box')
-        </div>
-
-        <div class="col-md-9 col-lg-10 global-dashboard zone-impression">
+<div class="global-dashboard zone-impression">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3>Tableau de bord global</h3>
             </div>
@@ -111,8 +105,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>
 
 <script>

@@ -62,13 +62,7 @@
     }
 </style>
 
-<div class="container-fluid dashboard-wrapper min-vh-100 p-0">
-    <div class="row g-0">
-        <div class="col-md-3 col-lg-2 p-0 menu-sidebar border-end" style="background: #0f172a;">
-            @include('layouts.nav_box')
-        </div>
-
-        <div class="col-md-9 col-lg-10 d-flex flex-column min-vh-100 px-4 py-4">
+<div class="dashboard-wrapper px-4 py-4">
             
             <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center pb-3 mb-4 border-bottom" style="border-color: #e2e8f0 !important;">
                 <div class="mb-3 mb-lg-0">
@@ -185,8 +179,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
 </div>
 
 @include('Entite.edit_modal')

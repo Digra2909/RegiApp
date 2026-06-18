@@ -2,15 +2,7 @@
 @section('titre', 'Nouvel utilisateur')
 
 @section('content')
-<div class="container-fluid dashboard-wrapper min-vh-100 p-0">
-    <div class="row g-0">
-        <!-- Sidebar Navigation -->
-        <div class="col-md-3 col-lg-2 p-0 menu-sidebar border-end" style="background: #0f172a;">
-            @include('layouts.nav_box')
-        </div>
-
-        <!-- Contenu Principal -->
-        <div class="col-md-9 col-lg-10 px-4 py-4">
+<div class="dashboard-wrapper px-4 py-4">
             <div class="mb-4">
                 <h3 class="fw-bold text-dark mb-1">Créer un nouvel utilisateur</h3>
                 <p class="text-muted small">Remplissez les informations et définissez les accès.</p>
@@ -65,7 +57,5 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
 </div>
 @endsection

@@ -2,13 +2,7 @@
 @section('titre', 'Paramètres Système')
 @section('content')
 
-<div class="container-fluid dashboard-wrapper min-vh-100 p-0">
-    <div class="row g-0">
-        <div class="col-md-3 col-lg-2 p-0 menu-sidebar border-end" style="background: #0f172a;">
-            @include('layouts.nav_box')
-        </div>
-
-        <div class="col-md-9 col-lg-10 d-flex flex-column min-vh-100 px-4 py-4">
+<div class="dashboard-wrapper px-4 py-4">
             
             <div class="mb-4">
                 <h3 class="fw-bold text-dark mb-1" style="letter-spacing: -0.4px;">Paramètres</h3>
@@ -85,8 +79,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>
 
 @endsection

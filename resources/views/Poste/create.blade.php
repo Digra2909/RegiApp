@@ -66,15 +66,7 @@
     }
 </style>
 
-<div class="container-fluid dashboard-wrapper min-vh-100 p-0">
-    <div class="row g-0">
-        <!-- Sidebar de Navigation -->
-        <div class="col-md-3 col-lg-2 p-0 border-end" style="background: #0f172a;">
-            @include('layouts.nav_box')
-        </div>
-
-        <!-- Zone de Contenu Principal -->
-        <div class="col-md-9 col-lg-10 d-flex flex-column min-vh-100 px-4 py-4">
+<div class="dashboard-wrapper px-4 py-4">
             
             <!-- SECTION 1 : BARRE SUPÉRIEURE & FORMULAIRE D'AJOUT -->
             <div class="d-flex flex-column pb-4 mb-4 border-bottom" style="border-color: #e2e8f0 !important;">
@@ -232,8 +224,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
 </div>
 
 @include('Poste.edit_modal')

@@ -70,7 +70,7 @@ class EquipementController extends Controller
                 'equipements.*',
                 'postes.designationPoste',
                 'postes.nomResponsble',
-                DB::raw('COALESCE(entites.designationEntite, "Aucune") as nom_entite')
+                DB::raw("COALESCE(entites.designationEntite, 'Aucune') as nom_entite")
             )
             ->orderBy('equipements.created_at', 'desc')
             ->get();
@@ -90,7 +90,7 @@ class EquipementController extends Controller
 
         $equipementsParEntite = $baseQuery->clone()
             ->select(
-                DB::raw('COALESCE(entites.designationEntite, "Sans EntitÃ©") as label'),
+                DB::raw("COALESCE(entites.designationEntite, 'Sans entité') as label"),
                 DB::raw('count(equipements.id) as total')
             )
             ->groupBy('postes.entite_id', 'entites.designationEntite')

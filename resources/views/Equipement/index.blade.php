@@ -96,15 +96,7 @@
     }
 </style>
 
-<div class="container-fluid dashboard-wrapper">
-    <div class="row">
-        <!-- Sidebar Navigation -->
-        <div class="col-md-3 col-lg-2 p-0 menu-sidebar border-end" style="background: #0f172a;">
-            @include('layouts.nav_box')
-        </div>
-
-        <!-- Main Content Area -->
-        <div class="col-md-9 col-lg-10 py-4 px-4 zone-impression">
+<div class="dashboard-wrapper zone-impression">
             
             <!-- EXECUTIF PDF HEADER (VISIBLE UNIQUEMENT AU PRINT) -->
             <div class="titre-pdf-uniquement w-100 mb-3 border-bottom pb-2">
@@ -453,8 +445,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

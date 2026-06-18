@@ -21,20 +21,20 @@ class GlobalController extends Controller
             ->pluck('total', 'Observation')
             ->toArray();
 
-        // Equipments per year
-        $perYearQuery = Equipement::selectRaw('YEAR(dateAcc) as year, count(*) as total')
-            ->groupBy('year')
+        // Equipments per year (SQLite compatible)
+        $perYearQuery = Equipement::selectRaw("strftime('%Y', dateAcc) as year, count(*) as total")
+            ->groupBy(DB::raw("strftime('%Y', dateAcc)"))
             ->orderBy('year')
             ->get();
 
         $years = $perYearQuery->pluck('year')->map(fn($y) => (string) $y)->values()->all();
         $countsPerYear = $perYearQuery->pluck('total')->values()->all();
 
-        // Monthly additions (last 12 months)
+        // Monthly additions (last 12 months, SQLite compatible)
         $start = now()->subMonths(11)->startOfMonth();
-        $monthlyQuery = Equipement::selectRaw("DATE_FORMAT(dateAcc, '%Y-%m') as ym, count(*) as total")
+        $monthlyQuery = Equipement::selectRaw("strftime('%Y-%m', dateAcc) as ym, count(*) as total")
             ->where('dateAcc', '>=', $start)
-            ->groupBy('ym')
+            ->groupBy(DB::raw("strftime('%Y-%m', dateAcc)"))
             ->orderBy('ym')
             ->get();
 
