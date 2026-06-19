@@ -21,7 +21,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="users">
                     <div class="card custom-card p-0 shadow-sm">
-                        <div class="card-header bg-white border-0 pt-4 pb-2 d-flex justify-content-between align-items-center">
+                        <div class="card-header bg-white border-0 pt-4 pb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
                             <div>
                                 <h5 class="fw-bold text-dark mb-0">Liste des utilisateurs</h5>
                                 <p class="text-muted small mb-0">Gérez les comptes et les accès système.</p>
@@ -32,34 +32,36 @@
                             </a>
                         </div>
                         <div class="card-body p-4">
-                            <table class="table align-middle">
-                                <thead class="text-muted text-uppercase small">
-                                    <tr><th>Nom</th><th>Email</th><th>Rôles</th><th>Actions</th></tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $user)
-                                    <tr>
-                                        <td class="fw-bold">{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>
-                                            @foreach($user->getRoleNames() as $role)
-                                                <span class="badge bg-light text-dark border rounded-pill">{{ $role }}</span>
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="{{ route('settings.users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary border-0">Modifier</a>
-                                                <form action="{{ route('settings.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Supprimer cet utilisateur ?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0">Supprimer</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead class="text-muted text-uppercase small">
+                                        <tr><th>Nom</th><th>Email</th><th>Rôles</th><th>Actions</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($users as $user)
+                                        <tr>
+                                            <td class="fw-bold">{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>
+                                                @foreach($user->getRoleNames() as $role)
+                                                    <span class="badge bg-light text-dark border rounded-pill">{{ $role }}</span>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <a href="{{ route('settings.users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary border-0">Modifier</a>
+                                                    <form action="{{ route('settings.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger border-0">Supprimer</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
