@@ -33,7 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('Equipement', [EquipementController::class, 'index'])->name('Equipement.index')->middleware('role:admin|rapporteur');
     Route::resource('Equipement', EquipementController::class)->except(['index'])->middleware('role:admin');
 
-    Route::get('global', [GlobalController::class, 'index'])->name('global');
+    // Global analytics view (access: admin and opérateur)
+    Route::get('global', [GlobalController::class, 'index'])->name('global')->middleware('role:admin|operateur');
 
     // User management (settings) - only accessible by admins
     Route::middleware('role:admin')->group(function () {

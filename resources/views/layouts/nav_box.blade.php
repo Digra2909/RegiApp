@@ -23,6 +23,7 @@
                     <span>Tableau de bord</span>
                 </a>
             </li>
+            @hasanyrole('admin|operateur')
             <li>
                 <a href="{{ route('global') }}"
                    class="sidebar-link {{ request()->routeIs('global') ? 'active' : '' }}">
@@ -30,7 +31,6 @@
                     <span>Dashboard global</span>
                 </a>
             </li>
-            @hasanyrole('admin')
             <li>
                 <a href="{{ route('Direction.create') }}"
                    class="sidebar-link {{ request()->routeIs('Direction.*') ? 'active' : '' }}">
@@ -109,6 +109,7 @@
                         <span>Tableau de bord</span>
                     </a>
                 </li>
+                @hasanyrole('admin|operateur')
                 <li>
                     <a href="{{ route('global') }}"
                        class="sidebar-link {{ request()->routeIs('global') ? 'active' : '' }}">
@@ -116,8 +117,6 @@
                         <span>Dashboard global</span>
                     </a>
                 </li>
-                @hasanyrole('admin')
-                
                 <li>
                     <a href="{{ route('Direction.create') }}"
                        class="sidebar-link {{ request()->routeIs('Direction.*') ? 'active' : '' }}">
