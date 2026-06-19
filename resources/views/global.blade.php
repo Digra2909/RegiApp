@@ -18,7 +18,9 @@
         height: 320px; 
         position: relative;
     }
-    
+    small{
+        font-size: 0.75rem;
+    }
     .kpi-value { font-size: 1.35rem; font-weight: 700; color: #0f172a; }
     .kpi-trend { display:flex; align-items:center; justify-content:flex-start; gap:8px; margin-top:8px; }
     .kpi-sparkline { width:100%; height:36px; }
@@ -35,6 +37,9 @@
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Total</div>
+                        <small>
+                            Nombre total des equipements enregistrés.
+                        </small>
                         <div class="kpi-value">{{ $total ?? 0 }}</div>
                         <div class="kpi-trend">
                             <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
@@ -44,6 +49,9 @@
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Opérationnels</div>
+                        <small>
+                            Nombre d'équipements  en bon état .
+                        </small>
                         <div class="kpi-value text-success">{{ $byStatus['Bon état'] ?? 0 }}</div>
                         <div class="kpi-trend">
                             <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
@@ -53,6 +61,9 @@
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">En panne</div>
+                        <small>
+                            Nombre d'équipements actuellement hors service.
+                        </small>
                         <div class="kpi-value text-danger">{{ $byStatus['Hors service'] ?? 0 }}</div>
                         <div class="kpi-trend">
                             <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>
@@ -62,6 +73,9 @@
                 <div class="col-6 col-md-3">
                     <div class="p-3 kpi-card">
                         <div class="text-muted small text-uppercase fw-bold">Taux op.</div>
+                        <small>
+                            Pourcentage d'équipements en bon étatl.
+                        </small>
                         <div class="kpi-value">{{ $percentOperational ?? 0 }}%</div>
                         <div class="kpi-trend">
                             <div class="kpi-sparkline"><canvas class="sparkline"></canvas></div>

@@ -171,6 +171,9 @@
 
         /* ========== MOBILE HEADER ========== */
         .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 1020;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -228,6 +231,7 @@
 </head>
 <body>
 
+    @if(! $__env->hasSection('noSidebar'))
     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="d-flex align-items-center gap-2">
@@ -245,6 +249,7 @@
 
     <!-- Desktop Sidebar + Offcanvas Mobile -->
     @include('layouts.nav_box')
+    @endif
 
     <!-- Main Content -->
     <main class="main-content">
