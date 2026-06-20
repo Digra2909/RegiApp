@@ -71,6 +71,10 @@
     </nav>
 
     <div class="sidebar-footer">
+        <button id="darkModeToggle" class="sidebar-btn sidebar-btn-darkmode" onclick="toggleDarkMode()">
+            <i class="bi bi-moon-stars"></i>
+            <span>Mode sombre</span>
+        </button>
         <a href="{{ route('profile.edit') }}" class="sidebar-btn sidebar-btn-primary">
             <i class="bi bi-box-arrow-in-right me-2"></i> Connexion
         </a>
@@ -157,6 +161,10 @@
         </nav>
 
         <div class="offcanvas-footer">
+            <button id="darkModeToggleMobile" class="sidebar-btn sidebar-btn-darkmode" onclick="toggleDarkMode()">
+                <i class="bi bi-moon-stars"></i>
+                <span>Mode sombre</span>
+            </button>
             <a href="{{ route('profile.edit') }}" class="sidebar-btn sidebar-btn-primary">
                 <i class="bi bi-box-arrow-in-right me-2"></i> Connexion
             </a>

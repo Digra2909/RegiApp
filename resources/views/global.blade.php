@@ -87,19 +87,19 @@
             <div class="row g-3 mb-3">
                 <div class="col-12 col-lg-4">
                     <div class="chart-block">
-                        <h6 class="mb-3">Par année</h6>
+                        <h6 class="mb-3"> Nombre d'équipements Par année</h6>
                         <canvas id="histogramChart"></canvas>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="chart-block">
-                        <h6 class="mb-3">Par statut</h6>
+                        <h6 class="mb-3"> Nombre d'équipements  Par statut d'amortissement</h6>
                         <canvas id="barChart"></canvas>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4">
                     <div class="chart-block">
-                        <h6 class="mb-3">Répartition état</h6>
+                        <h6 class="mb-3">Répartition des équipements par état</h6>
                         <canvas id="doughnutChart"></canvas>
                     </div>
                 </div>
@@ -108,13 +108,13 @@
             <div class="row g-3">
                 <div class="col-12 col-lg-6">
                     <div class="chart-block">
-                        <h6 class="mb-3">Ajouts mensuels</h6>
+                        <h6 class="mb-3">Variations des ajouts mensuels</h6>
                         <canvas id="monthlyChart"></canvas>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="chart-block">
-                        <h6 class="mb-3">Top entités</h6>
+                        <h6 class="mb-3">Top bureaux </h6>
                         <canvas id="topEntiteChart"></canvas>
                     </div>
                 </div>
@@ -123,7 +123,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    const commonOptions = { responsive: true, maintainAspectRatio: false };
+    const isDark = localStorage.getItem('theme') === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+        Chart.defaults.color = '#94a3b8';
+    }
+    const commonOptions = { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: isDark ? '#334155' : '#e2e8f0' } }, y: { grid: { color: isDark ? '#334155' : '#e2e8f0' } } } };
     
     // Initialisation simplifiée
     new Chart(document.getElementById('histogramChart'), {
