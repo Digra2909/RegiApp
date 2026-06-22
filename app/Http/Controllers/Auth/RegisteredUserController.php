@@ -42,9 +42,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Seuls les administrateurs peuvent créer des utilisateurs
-        if (! Auth::check() || ! (method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
-            abort(403, 'Accès refusé.');
+        // Prevent authenticated non-admins from creating users via this route
+        if (Auth::check() && ! (method_exists(Auth::user(), 'hasRole') && Auth::user()->hasRole('admin'))) {
+            if (\Route::has('dashboard')) {
+                return redirect()->route('dashboard');
+            }
+
+            return redirect('/');
         }
 
         $request->validate([
@@ -68,6 +72,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect(route('login', absolute: false))->with('success', 'Utilisateur créé avec succès.');
+        Auth::login($user);
+
+        return redirect(route('login', absolute: false));
     }
 }
