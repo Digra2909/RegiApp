@@ -111,12 +111,12 @@
 
                         <!-- Champ 3 : Entité Rattachée -->
                         <div class="col-lg-3 col-md-8">
-                            <label for="entite_id" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">Rattaché à l'entité</label>
+                            <label for="entite_id" class="form-label mb-1" style="font-size: 0.725rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">Rattaché au bureau</label>
                             <select name="entite_id" 
                                     id="entite_id" 
                                     class="form-select form-select-custom @error('entite_id') is-invalid @enderror" 
                                     required>
-                                <option value="" selected disabled>Choisir une entité...</option>
+                                <option value="" selected disabled>Choisir un bureau...</option>
                                 @foreach($entites as $entite)
                                     <option value="{{ $entite->id }}" {{ old('entite_id') == $entite->id ? 'selected' : '' }}>
                                         {{ $entite->designationEntite ?? $entite->designation ?? $entite->nom }}
@@ -163,7 +163,7 @@
                                 <th scope="col" class="py-3 ps-4 text-uppercase border-0" style="width: 70px;">N°</th>
                                 <th scope="col" class="py-3 text-uppercase border-0">Poste</th>
                                 <th scope="col" class="py-3 text-uppercase border-0">Responsable</th>
-                                <th scope="col" class="py-3 text-uppercase border-0">Entité rattachée</th>
+                                <th scope="col" class="py-3 text-uppercase border-0">Bureau rattaché</th>
                                 <th scope="col" class="py-3 pe-4 text-end text-uppercase border-0" style="width: 130px;">Actions</th>
                             </tr>
                         </thead>

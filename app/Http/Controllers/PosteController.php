@@ -41,16 +41,14 @@ class PosteController extends Controller
 
         $entite = Entite::findOrFail($validated['entite_id']);
 
-        $poste = Poste::create([
+        Poste::create([
             'designationPoste' => $entite->designationEntite.'-'.$validated['designationPoste'],
             'nomResponsble' => $validated['nomResponsble'],
             'entite_id' => $validated['entite_id'],
         ]);
-        $entites = Entite::all();
 
-        $postes = Poste::with('entite')->get();
-
-        return view('Poste.create', compact('entites', 'postes'));
+        return redirect()->route('Poste.create')
+            ->with('success', 'Poste créé avec succès.');
     }
 
     /**
@@ -88,11 +86,8 @@ class PosteController extends Controller
         $poste->entite_id = $validated['entite_id'];
         $poste->save();
 
-        $entites = Entite::all();
-
-        $postes = Poste::with('entite')->get();
-
-        return view('Poste.create', compact('entites', 'postes'));
+        return redirect()->route('Poste.create')
+            ->with('success', 'Poste mis à jour avec succès.');
     }
 
     /**

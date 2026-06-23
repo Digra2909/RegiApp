@@ -170,11 +170,8 @@ class EquipementController extends Controller
 
         Equipement::create($validated);
 
-        $postes = Poste::with('entite')->get();
-        $entites = Entite::all();
-        $equipements = Equipement::with('poste')->get();
-
-        return view('Equipement.create', compact('postes', 'entites', 'equipements'));
+        return redirect()->route('Equipement.create')
+            ->with('success', 'Équipement créé avec succès.');
     }
 
     /**
@@ -225,11 +222,8 @@ class EquipementController extends Controller
         $equipement = Equipement::findOrFail($id);
         $equipement->update($validated);
 
-        $postes = Poste::with('entite')->get();
-        $entites = Entite::all();
-        $equipements = Equipement::with('poste')->get();
-
-        return view('Equipement.create', compact('postes', 'entites', 'equipements'));
+        return redirect()->route('Equipement.create')
+            ->with('success', 'Équipement mis à jour avec succès.');
     }
 
     /**
@@ -240,10 +234,7 @@ class EquipementController extends Controller
         $equipement = Equipement::findOrFail($id);
         $equipement->delete();
 
-        $postes = Poste::with('entite')->get();
-        $entites = Entite::all();
-        $equipements = Equipement::with('poste')->get();
-
-        return view('Equipement.create', compact('postes', 'entites', 'equipements'));
+        return redirect()->route('Equipement.create')
+            ->with('success', 'Équipement supprimé avec succès.');
     }
 }

@@ -40,7 +40,7 @@ class EntiteController extends Controller
         ]);
 
         return redirect()->route('Entite.create')
-            ->with('success', 'Entité créée avec succès.');
+            ->with('success', 'Bureau créée avec succès.');
     }
 
     /**

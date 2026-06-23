@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('equipements', function (Blueprint $table) {
             $table->id();
             $table->String('designationEquipement');
-            $table->String('NserieEquipement');
-            $table->String('nImmoEquipement');
+            $table->String('NserieEquipement')->unique();
+            $table->String('nImmoEquipement')->unique();
             $table->String('autreSpecTech');
             $table->enum('Observation', ['Bon état', 'Hors service', 'En maintenance', 'Déclassé']);
             $table->date('dateAcc')->nullable();

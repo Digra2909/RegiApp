@@ -1,1 +1,1 @@
-<img src="{{ asset('logos/logoRegidesi.png') }}" alt="Logo REGIDESO" class="img-fluid">
+<img src="{{ asset('logos/logoRegidesi.png') }}" alt="Logo REGIDESO" {{ $attributes->merge(['style' => 'height: 100%; width: auto; object-fit: contain;']) }}>

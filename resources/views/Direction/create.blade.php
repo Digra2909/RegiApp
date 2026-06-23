@@ -22,7 +22,15 @@
             </div>
 
             <div class="row g-4">
-                <!-- Formulaire de Création -->
+                @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 mb-4 p-3 shadow-sm d-flex align-items-center" role="alert" style="background-color: #f0fdf4; color: #166534;">
+                    <i class="bi bi-check2-all me-2.5 fs-5"></i>
+                    <div class="fw-medium small">{{ session('success') }}</div>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close" style="padding: 1.25rem; font-size: 0.75rem;"></button>
+                </div>
+            @endif
+
+            <!-- Formulaire de Création -->
                 <div class="col-xl-4">
                     <div class="card bg-white border border-secondary border-opacity-10 shadow-sm rounded-3 p-4">
                         <div class="d-flex align-items-center mb-3">
