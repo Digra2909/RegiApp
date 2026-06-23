@@ -67,15 +67,69 @@
                 </div>
 
                 <div class="tab-pane fade" id="logs">
-                    <div class="card custom-card p-4 bg-dark text-light">
-                        <h6 class="text-uppercase text-secondary mb-3 small fw-bold">Dernières activités</h6>
-                        <div class="d-flex flex-column gap-2">
+                    <div class="card custom-card p-0 shadow-sm border-0">
+                        <div class="card-header bg-white border-0 pt-4 pb-2">
+                            <h5 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-terminal me-2"></i>Dernières activités
+                            </h5>
+                            <p class="text-muted small mb-0">Suivi des actions enregistrées sur la plateforme.</p>
+                        </div>
+                        <div class="card-body p-4">
                             @forelse($activityLogs as $log)
-                                <div class="small text-monospace m-0" style="color: #10b981;">
-                                    [{{ $log->created_at->format('Y-m-d H:i:s') }}] {{ strtoupper($log->action) }}: @if($log->meta) {{ json_encode($log->meta) }} @endif @if($log->user) — {{ $log->user->name }} @endif
+                                <div class="d-flex align-items-start gap-3 py-2 border-bottom border-light">
+                                    <div class="mt-1">
+                                        <span class="badge rounded-pill px-2 py-1
+                                            @switch($log->action)
+                                                @case('created') bg-success-subtle text-success @break
+                                                @case('updated') bg-info-subtle text-info @break
+                                                @case('deleted') bg-danger-subtle text-danger @break
+                                                @default bg-secondary-subtle text-secondary
+                                            @endswitch
+                                        " style="font-size: 0.65rem; letter-spacing: 0.3px; font-weight: 700;">
+                                            {{ strtoupper($log->action) }}
+                                        </span>
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <div class="small text-dark mb-1 text-break">
+                                            @if($log->meta)
+                                                <span class="fw-medium">{{ class_basename($log->meta['model'] ?? '') }}</span>
+                                                @if(isset($log->meta['attributes']['designationEquipement']))
+                                                    — {{ $log->meta['attributes']['designationEquipement'] }}
+                                                @elseif(isset($log->meta['attributes']['designationDirection']))
+                                                    — {{ $log->meta['attributes']['designationDirection'] }}
+                                                @elseif(isset($log->meta['attributes']['designationEntite']))
+                                                    — {{ $log->meta['attributes']['designationEntite'] }}
+                                                @elseif(isset($log->meta['attributes']['designationPoste']))
+                                                    — {{ $log->meta['attributes']['designationPoste'] }}
+                                                @elseif(isset($log->meta['attributes']['name']))
+                                                    — {{ $log->meta['attributes']['name'] }}
+                                                @endif
+                                            @else
+                                                Action enregistrée
+                                            @endif
+                                        </div>
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                            <span class="text-muted" style="font-size: 0.7rem;">
+                                                <i class="bi bi-clock me-1"></i>{{ $log->created_at->format('d/m/Y H:i') }}
+                                            </span>
+                                            @if($log->user)
+                                                <span class="text-muted" style="font-size: 0.7rem;">
+                                                    <i class="bi bi-person me-1"></i>{{ $log->user->name }}
+                                                </span>
+                                            @endif
+                                            @if($log->ip)
+                                                <span class="text-muted" style="font-size: 0.7rem;">
+                                                    <i class="bi bi-globe me-1"></i>{{ $log->ip }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             @empty
-                                <div class="small text-muted">Aucune activité enregistrée.</div>
+                                <div class="text-center py-5">
+                                    <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                                    <p class="text-muted small mt-2 mb-0">Aucune activité enregistrée.</p>
+                                </div>
                             @endforelse
                         </div>
                     </div>

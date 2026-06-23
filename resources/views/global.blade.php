@@ -8,7 +8,7 @@
     .global-dashboard { font-family: 'Inter', sans-serif; }
     .kpi-card { border-radius: 12px; box-shadow: 0 6px 18px rgba(2,6,23,0.06); background: #fff; border: 1px solid #e2e8f0; }
     
-    /* Correction : hauteur fixe pour limiter l'expansion infinie */
+    /* Hauteur fixe pour limiter l'expansion */
     .chart-block { 
         background: #fff; 
         border-radius: 12px; 
@@ -129,14 +129,12 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     const commonOptions = { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: isDark ? '#334155' : '#e2e8f0' } }, y: { grid: { color: isDark ? '#334155' : '#e2e8f0' } } } };
     
-    // Initialisation simplifiée
     new Chart(document.getElementById('histogramChart'), {
         type: 'bar',
         data: { labels: @json($years ?? []), datasets: [{ label: 'Équipements', data: @json($countsPerYear ?? []), backgroundColor: '#3b82f6' }] },
         options: commonOptions
     });
 
-    // Preference chart: use recalculated preference data (do not touch doughnut/anneau)
     new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: { labels: @json($preferenceLabels ?? []), datasets: [{ label: 'Préférence', data: @json($preferenceData ?? []), backgroundColor: ['#06b6d4','#f59e0b'] }] },
@@ -161,9 +159,7 @@ document.addEventListener('DOMContentLoaded', function(){
         options: { ...commonOptions, indexAxis: 'y' }
     });
 
-    // (Trend indicators removed) 
-
-    // Sparklines: petits graphiques sous chaque KPI (visuel seulement)
+    
     document.querySelectorAll('.sparkline').forEach(function(canvas){
         const ctx = canvas.getContext('2d');
         const points = Array.from({length: 10}, () => Math.round(Math.random() * 100));

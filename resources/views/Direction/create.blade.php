@@ -241,23 +241,19 @@
         const editModal = document.getElementById('editDirectionModal');
         if (editModal) {
             editModal.addEventListener('show.bs.modal', function (event) {
-                // Bouton qui a déclenché le modal
                 const button = event.relatedTarget;
                 
-                // Extraction des attributs data-*
                 const id = button.getAttribute('data-id');
                 const designation = button.getAttribute('data-designation');
                 const code = button.getAttribute('data-code');
                 const directeur = button.getAttribute('data-directeur');
                 
-                // Injection dans les champs du formulaire
                 document.getElementById('edit_designationDirection').value = designation;
                 document.getElementById('edit_codeDirection').value = code;
                 document.getElementById('edit_nomDirecteur').value = directeur;
                 
-                // Mise à jour de l'action du formulaire dynamiquement
                 const form = document.getElementById('editDirectionForm');
-                form.action = `/Direction/${id}`; // Ajustez l'URL selon votre ressource de route
+                form.action = `/Direction/${id}`;
             });
         }
     });

@@ -9,9 +9,7 @@ let comboChartInstance;
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ==========================================
-    // 1. INITIALISATION DU GRAPHIQUE EN BÂTONS (ENTITÉS)
-    // ==========================================
+    // 1. Graphique en bâtons (entités)
     const ctxBar = document.getElementById('entiteBarChart');
     if (ctxBar) {
         const rawLabels = ctxBar.getAttribute('data-labels');
@@ -42,9 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==========================================
-    // 2. INITIALISATION DU GRAPHIQUE DONUT (STATUT COUVERTURE)
-    // ==========================================
+    // 2. Graphique donut (statut de couverture)
     const ctxDonut = document.getElementById('statusDonutChart');
     if (ctxDonut) {
         const rawValues = ctxDonut.getAttribute('data-values');
@@ -70,9 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ===================================================================
-    // 3. INITIALISATION DU GRAPH MIXTE (HISTOGRAMME + LIGNE DE TENDANCE DES BUREAUX)
-    // ===================================================================
+    // 3. Graphique mixte (histogramme + ligne de tendance des bureaux)
     const ctxCombo = document.getElementById('bureauComboChart');
     if (ctxCombo) {
         const rawLabels = ctxCombo.getAttribute('data-labels');
@@ -87,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 labels: bureauLabels,
                 datasets: [
                     {
-                        // Composant 1 : Courbe dorée de liaison / tendance
+                        // Courbe de tendance
                         type: 'line',
                         label: 'Ligne d\'évolution de la charge',
                         data: bureauValues,
@@ -101,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         order: 1
                     },
                     {
-                        // Composant 2 : Bâtons de volume d'outils
+                        // Bâtons de volume d'outils
                         type: 'bar',
                         label: 'Volume total d\'outils par bureau',
                         data: bureauValues,
@@ -128,9 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// ==========================================
-// 4. GESTION DES HOOKS D'IMPRESSION SYSTÈME
-// ==========================================
+// 4. Hooks d'impression système
 window.addEventListener('beforeprint', () => {
     const table = document.getElementById('targetPrintTable');
     if (table) {
@@ -148,9 +140,7 @@ function exporterPDF() {
     document.title = originalTitle;
 }
 
-// ==========================================
-// 5. INFRASTRUCTURE EXPORT EXCEL VIA SHEETJS
-// ==========================================
+// 5. Export Excel via SheetJS
 function exporterExcel() {
     const table = document.getElementById("targetPrintTable");
 
@@ -162,7 +152,7 @@ function exporterExcel() {
     const tableCopy = table.cloneNode(true);
 
     tableCopy.querySelectorAll('tbody tr').forEach(tr => {
-        // [Index 1] Désignation : Extraction et nettoyage textuel du sous-titre S/N
+        // Désignation : extraction du sous-titre S/N
         const cellDesig = tr.cells[1];
         if (cellDesig) {
             const subText = cellDesig.querySelector('.subtitle-printable, span');
@@ -170,7 +160,7 @@ function exporterExcel() {
             cellDesig.innerText = cellDesig.innerText.trim();
         }
 
-        // [Index 4] Poste : Isolation de la désignation sans le nom du Responsable
+        // Poste : désignation sans le nom du responsable
         const cellPoste = tr.cells[4];
         if (cellPoste) {
             const subText = cellPoste.querySelector('.subtitle-printable, span');
@@ -178,13 +168,13 @@ function exporterExcel() {
             cellPoste.innerText = cellPoste.innerText.trim();
         }
 
-        // [Index 5] Spécificités : Trim simple
+        // Spécificités : trim simple
         const cellSpec = tr.cells[5];
         if (cellSpec) {
             cellSpec.innerText = cellSpec.innerText.trim();
         }
 
-        // [Index 6] Statut : Isolation de la valeur du badge textuel brut
+        // Statut : valeur du badge textuel brut
         const cellStatut = tr.cells[6];
         if (cellStatut) {
             const badge = cellStatut.querySelector('.badge');
@@ -195,6 +185,6 @@ function exporterExcel() {
     });
 
     const workbook = XLSX.utils.table_to_book(tableCopy, { sheet: "Spécifications Équipements" });
-    // CORRECTION ICI : XLSX.writeFile au lieu de XXLSX.writeFile
+    // J'utilise XLSX.writeFile au lieu de XXLSX.writeFile
     XLSX.writeFile(workbook, "Rapport_Equipements_RegiApp_2026.xlsx");
 }

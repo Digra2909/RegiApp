@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <style>
-    /* Intégration de la charte graphique moderne */
+    /* Charte graphique moderne */
     .dashboard-wrapper {
         font-family: 'Inter', sans-serif;
         background-color: #f8fafc;
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('edit_dateAcc').value = date;
             document.getElementById('edit_Observation').value = observation;
             document.getElementById('edit_poste_id').value = poste;
-            // Pré-remplir les champs éclatés (séparateur ' | ')
+            // Je pré-remplis les champs éclatés (séparateur ' | ')
             const parts = spectech ? spectech.split('|').map(s => s.trim()) : [];
             document.getElementById('edit_ram').value = parts[0] ?? '';
             document.getElementById('edit_disque_dur').value = parts[1] ?? '';

@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Alias Spatie permission middlewares if package is installed
+        // Alias des middlewares Spatie si le package est installé
         if (class_exists(RoleMiddleware::class)) {
             Route::aliasMiddleware('role', RoleMiddleware::class);
         }
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             Route::aliasMiddleware('role_or_permission', RoleOrPermissionMiddleware::class);
         }
 
-        // Register model observers for automatic activity logging
+        // Enregistrement des observateurs pour le logging automatique
         Entite::observe(ActivityObserver::class);
         Direction::observe(ActivityObserver::class);
         User::observe(ActivityObserver::class);

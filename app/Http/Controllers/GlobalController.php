@@ -13,7 +13,6 @@ class GlobalController extends Controller
      */
     public function index()
     {
-        // Aggregated data (non-invasive, read-only queries)
         $total = Equipement::count();
 
         $byStatus = Equipement::select('Observation', DB::raw('count(*) as total'))
@@ -21,7 +20,6 @@ class GlobalController extends Controller
             ->pluck('total', 'Observation')
             ->toArray();
 
-        // Equipments per year (SQLite compatible)
         $perYearQuery = Equipement::selectRaw("strftime('%Y', dateAcc) as year, count(*) as total")
             ->groupBy(DB::raw("strftime('%Y', dateAcc)"))
             ->orderBy('year')
@@ -30,7 +28,6 @@ class GlobalController extends Controller
         $years = $perYearQuery->pluck('year')->map(fn($y) => (string) $y)->values()->all();
         $countsPerYear = $perYearQuery->pluck('total')->values()->all();
 
-        // Monthly additions (last 12 months, SQLite compatible)
         $start = now()->subMonths(11)->startOfMonth();
         $monthlyQuery = Equipement::selectRaw("strftime('%Y-%m', dateAcc) as ym, count(*) as total")
             ->where('dateAcc', '>=', $start)
@@ -47,19 +44,15 @@ class GlobalController extends Controller
             $countsPerMonth[] = $found ? (int) $found->total : 0;
         }
 
-        // Percent operational
         $operational = $byStatus['Bon état'] ?? 0;
         $percentOperational = $total ? round(100 * $operational / $total, 1) : 0;
 
-        // Equipments amortis (>=5 years)
         $amortisCount = Equipement::whereDate('dateAcc', '<=', now()->subYears(5))->count();
 
-        // Preference chart: amortis vs non-amortis
         $nonAmortisCount = max(0, $total - $amortisCount);
         $preferenceLabels = ['Amortis', 'Non amortis'];
         $preferenceData = [$amortisCount, $nonAmortisCount];
 
-        // Top 5 entites by equipment count
         $topEntites = DB::table('equipements')
             ->join('postes', 'equipements.poste_id', '=', 'postes.id')
             ->join('entites', 'postes.entite_id', '=', 'entites.id')

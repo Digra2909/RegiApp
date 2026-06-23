@@ -31,7 +31,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* ========== DESKTOP SIDEBAR ========== */
+        /* Desktop Sidebar */
         .sidebar-desktop {
             position: fixed;
             top: 0;
@@ -186,7 +186,7 @@
             color: #e2e8f0;
         }
 
-        /* ========== MOBILE HEADER ========== */
+        /* Mobile Header */
         .mobile-header {
             position: sticky;
             top: 0;
@@ -217,7 +217,7 @@
         .mobile-header-brand { font-size: 0.9rem; font-weight: 700; }
         .mobile-header-user { font-size: 0.8rem; opacity: 0.8; }
 
-        /* ========== OFFCANVAS ========== */
+        /* Offcanvas */
         .offcanvas {
             background: var(--sidebar-bg) !important;
         }
@@ -235,7 +235,7 @@
             border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-        /* ========== MAIN CONTENT ========== */
+        /* Main Content */
         .main-content {
             min-height: 100vh;
             padding: 24px;
@@ -245,7 +245,7 @@
             .main-content { padding: 16px; }
         }
 
-        /* ========== DARK MODE ========== */
+        /* Dark Mode */
         [data-theme="dark"] {
             --body-bg: #0f172a;
             --card-bg: #1e293b;
@@ -436,6 +436,10 @@
         [data-theme="dark"] pre,
         [data-theme="dark"] .text-monospace {
             color: var(--text-primary) !important;
+        }
+        /* Activity log border bottom in dark mode */
+        [data-theme="dark"] .border-light {
+            border-color: var(--card-border) !important;
         }
         [data-theme="dark"] .dashboard-wrapper h3 {
             color: var(--text-primary) !important;

@@ -79,7 +79,7 @@
         .menu-sidebar, form, .zone-filtre, .btn, .btn-custom, .section-kpi-row, .block-chart, .zone-amortissement-print, .doc-title-main { display: none !important; }
         .zone-impression { width: 100% !important; max-width: 100% !important; flex: 0 0 100% !important; margin: 0 !important; padding: 0 !important; }
         
-        /* Correction de l'en-tête de direction au print pour éliminer l'espace vide */
+        /* En-tête de direction au print sans espace vide */
         .zone-header { margin-bottom: 15px !important; padding: 0 !important; }
         .zone-header img { height: 45px !important; }
         
@@ -453,7 +453,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    // small visual sparklines for KPI cards (no data calculation)
+    // Sparklines pour les cartes KPI
     document.querySelectorAll('.sparkline').forEach(function(canvas){
         try {
             const ctx = canvas.getContext('2d');

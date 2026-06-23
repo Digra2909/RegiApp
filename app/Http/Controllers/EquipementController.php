@@ -17,9 +17,7 @@ class EquipementController extends Controller
     public function index(Request $request)
     {
 
-        // ==========================================
-        // 1. Vos filtres et requêtes de base existants
-        // ==========================================
+        // 1. Filtres et requêtes de base
         $search = $request->input('search');
         $entiteId = $request->input('entite_id');
         $observation = $request->input('observation');
@@ -28,10 +26,8 @@ class EquipementController extends Controller
             ->leftJoin('postes', 'equipements.poste_id', '=', 'postes.id')
             ->leftJoin('entites', 'postes.entite_id', '=', 'entites.id');
 
-        // ==========================================
-        // NOUVEAU : 3. ANALYSE DU BUREAU LE PLUS OUTILLÉ
-        // ==========================================
-        // Classement de tous les postes par volume d'équipements (basé sur la requête filtrée)
+        // 3. Analyse du bureau le mieux outillé
+        // Classement des postes par volume d'équipements
         $classementBureaux = $baseQuery->clone()
             ->select(
                 'postes.designationPoste as bureau',
@@ -44,7 +40,7 @@ class EquipementController extends Controller
             ->orderBy('total_outils', 'desc')
             ->get();
 
-        // Extraction des données du premier (le plus outillé)
+        // Données du bureau le plus outillé
         $bureauPlusOutille = $classementBureaux->first();
         $nomBureauPlusOutille = $bureauPlusOutille ? $bureauPlusOutille->bureau : 'Aucun';
         $maxOutils = $bureauPlusOutille ? $bureauPlusOutille->total_outils : 0;
@@ -75,7 +71,7 @@ class EquipementController extends Controller
             ->orderBy('equipements.created_at', 'desc')
             ->get();
 
-        // Vos KPIs globaux existants
+        // Mes KPIs globaux
         $totalEquipements = $equipements->count();
         $totalPostes = $baseQuery->clone()->distinct()->count('equipements.poste_id');
         $totalEntites = $baseQuery->clone()->whereNotNull('postes.entite_id')->distinct()->count('postes.entite_id');
@@ -100,10 +96,8 @@ class EquipementController extends Controller
         $barValues = $equipementsParEntite->pluck('total')->toArray();
         $entites = Entite::all();
 
-        // ==========================================
-        // NOUVEAU : 2. ANALYSE DES ÉQUIPEMENTS AMORTIS (Seuil : 5 ans)
-        // ==========================================
-        // On filtre la collection actuelle : si l'année en cours (2026) - année(dateAcc) >= 5
+        // 2. Analyse des équipements amortis (seuil : 5 ans)
+        // Filtre : année courante (2026) - année(dateAcc) >= 5
         $equipementsAmortis = $equipements->filter(function ($item) {
             if (empty($item->dateAcc)) {
                 return false;
@@ -125,7 +119,7 @@ class EquipementController extends Controller
         return view('Equipement.index', compact(
             'equipements', 'totalEquipements', 'totalPostes', 'totalEntites', 'tauxDispo',
             'donutData', 'barLabels', 'barValues', 'entites',
-            // Nouvelles variables injectées
+            // Nouvelles variables
             'equipementsAmortis', 'totalAmortis', 'nomBureauPlusOutille', 'maxOutils',
             'classementBureaux', 'bureauLabels', 'bureauValues'
         ));
@@ -161,7 +155,7 @@ class EquipementController extends Controller
             'poste_id' => 'required|exists:postes,id',
         ]);
 
-        // Construire la chaine jointe pour l'affichage dans les tableaux
+        // Chaîne jointe pour l'affichage dans les tableaux
         $specParts = [];
         foreach (['ram', 'disque_dur', 'cpu'] as $k) {
             if (!empty($validated[$k] ?? null)) {
@@ -169,7 +163,7 @@ class EquipementController extends Controller
             }
         }
         if (!empty($validated['autreSpecTech'] ?? null)) {
-            // Préserver l'ancienne saisie si fournie
+            // Je préserve l'ancienne saisie si fournie
             $specParts[] = $validated['autreSpecTech'];
         }
         $validated['autreSpecTech'] = $specParts ? implode(' | ', $specParts) : '';
