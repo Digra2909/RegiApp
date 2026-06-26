@@ -140,12 +140,13 @@
                                                     </button>
 
                                                     <!-- Bouton Supprimer (Formulaire destructif) -->
-                                                    <form action="{{ route('Direction.destroy', $direction->id) }}" method="POST" class="m-0 d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la direction {{ $direction->codeDirection }} ? Cette action est irréversible.');">
+                                                    <form id="delete-direction-{{ $direction->id }}" action="{{ route('Direction.destroy', $direction->id) }}" method="POST" class="m-0 d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" 
+                                                        <button type="button" 
                                                                 class="btn btn-outline-danger btn-sm border-0 rounded-2 px-2.5 bg-light" 
-                                                                title="Supprimer">
+                                                                title="Supprimer"
+                                                                onclick="event.preventDefault(); window.confirmDeleteModal.open('delete-direction-{{ $direction->id }}', '{{ $direction->codeDirection }}');">
                                                             <i class="bi bi-trash3"></i>
                                                         </button>
                                                     </form>

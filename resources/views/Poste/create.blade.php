@@ -201,10 +201,11 @@
                                             </button>
                                             
                                             <!-- Supprimer -->
-                                            <form action="{{ route('Poste.destroy', $poste->id) }}" method="POST" class="d-inline m-0" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce poste ?');">
+                                            <form id="delete-poste-{{ $poste->id }}" action="{{ route('Poste.destroy', $poste->id) }}" method="POST" class="d-inline m-0">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger action-btn" title="Supprimer">
+                                                <button type="button" class="btn btn-sm btn-outline-danger action-btn" title="Supprimer"
+                                                        onclick="event.preventDefault(); window.confirmDeleteModal.open('delete-poste-{{ $poste->id }}', '{{ $poste->designationPoste }}');">
                                                     <i class="bi bi-trash3"></i> 
                                                 </button>
                                             </form>

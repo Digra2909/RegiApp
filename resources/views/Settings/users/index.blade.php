@@ -32,6 +32,13 @@
                             </a>
                         </div>
                         <div class="card-body p-4">
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 mb-4 p-3 shadow-sm d-flex align-items-center" role="alert" style="background-color: #f0fdf4; color: #166534;">
+                                    <i class="bi bi-check2-all me-2.5 fs-5"></i>
+                                    <div class="fw-medium small">{{ session('success') }}</div>
+                                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close" style="padding: 1.25rem; font-size: 0.75rem;"></button>
+                                </div>
+                            @endif
                             <div class="table-responsive">
                                 <table class="table align-middle">
                                     <thead class="text-muted text-uppercase small">
@@ -50,10 +57,11 @@
                                             <td>
                                                 <div class="d-flex flex-wrap gap-2">
                                                     <a href="{{ route('settings.users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary border-0">Modifier</a>
-                                                    <form action="{{ route('settings.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                                    <form id="delete-user-{{ $user->id }}" action="{{ route('settings.users.destroy', $user->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border-0">Supprimer</button>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger border-0"
+                                                                onclick="event.preventDefault(); window.confirmDeleteModal.open('delete-user-{{ $user->id }}', '{{ $user->name }}');">Supprimer</button>
                                                     </form>
                                                 </div>
                                             </td>

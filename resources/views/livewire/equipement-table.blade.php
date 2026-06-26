@@ -100,10 +100,11 @@
                                     <i class="bi bi-pencil-square"></i> 
                                 </button>
                                 
-                                <form action="{{ route('Equipement.destroy', $equipement->id) }}" method="POST" class="d-inline m-0" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer définitivement cet équipement ?');">
+                                <form id="delete-equipement-{{ $equipement->id }}" action="{{ route('Equipement.destroy', $equipement->id) }}" method="POST" class="d-inline m-0">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" style="border-radius: 6px; width: 30px; height: 30px; padding: 0;" title="Supprimer">
+                                    <button type="button" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" style="border-radius: 6px; width: 30px; height: 30px; padding: 0;" title="Supprimer"
+                                            onclick="event.preventDefault(); window.confirmDeleteModal.open('delete-equipement-{{ $equipement->id }}', '{{ $equipement->designationEquipement }} - {{ $equipement->NserieEquipement }}');">
                                         <i class="bi bi-trash3"></i> 
                                     </button>
                                 </form>

@@ -8,6 +8,13 @@
                 <p class="text-muted small">Gestion des privilèges de l'utilisateur.</p>
             </div>
 
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 mb-4 p-3 shadow-sm d-flex align-items-center" role="alert" style="background-color: #f0fdf4; color: #166534;">
+                    <i class="bi bi-check2-all me-2.5 fs-5"></i>
+                    <div class="fw-medium small">{{ session('success') }}</div>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close" style="padding: 1.25rem; font-size: 0.75rem;"></button>
+                </div>
+            @endif
             <div class="card custom-card p-4">
                 <form action="{{ route('settings.users.update', $user->id) }}" method="POST">
                     @csrf
