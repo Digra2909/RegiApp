@@ -14,9 +14,11 @@ class ActivityObserver
             $user = Auth::user();
             $userId = $user?->id;
             $userName = $user?->name;
+            $attributes = $model->getAttributes();
+            unset($attributes['password'], $attributes['remember_token']);
             $meta = [
                 'model' => get_class($model),
-                'attributes' => $model->getAttributes(),
+                'attributes' => $attributes,
             ];
 
             ActivityLog::create([

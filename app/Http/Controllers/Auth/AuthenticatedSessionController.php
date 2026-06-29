@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('global', absolute: false));
+        return redirect()->intended(route('Equipement.index', absolute: false));
     }
 
     /**
